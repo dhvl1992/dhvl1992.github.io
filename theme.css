@@ -1,0 +1,82 @@
+/* =========================================================
+   My Apps — shared theme (single source of truth)
+   Every app links this file:  <link rel="stylesheet" href="/theme.css">
+   Change a value here → every app changes.
+   Rules: see DESIGN.md
+   ========================================================= */
+
+:root{
+  /* Colors: near-white, soft grey, black text, ONE blue accent */
+  --bg:#fafafa;         /* page */
+  --surface:#ffffff;    /* cards, buttons */
+  --soft:#efefef;       /* pill tracks, inputs, icon tiles */
+  --ink:#111111;        /* main text */
+  --muted:#757575;      /* secondary text */
+  --line:#ececec;       /* only if a divider is truly needed */
+  --accent:#3366ee;     /* the one action color */
+  --on-accent:#ffffff;
+  --warn:#c2562a; --warn-soft:#fbefe8;
+
+  /* Type: system font, regular weights, generous size */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fs: 17px;           /* body */
+  --fs-sm: 14px;        /* labels, notes */
+  --fs-lg: 22px;        /* page title */
+  --lh: 1.5;
+
+  /* Space: 8-point scale */
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px;
+
+  /* Shape: pills and big soft corners, no hard borders */
+  --r-pill:999px;
+  --r-card:24px;
+  --r-ctl:16px;
+  --shadow: 0 1px 2px rgba(0,0,0,.03), 0 6px 20px rgba(0,0,0,.04);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141414; --surface:#1e1e1e; --soft:#2a2a2a;
+    --ink:#ececec; --muted:#9a9a9a; --line:#2c2c2c;
+    --accent:#6f8fff; --on-accent:#0d0d0d;
+    --warn:#e59a70; --warn-soft:#33241c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4);
+  }
+}
+
+/* ---------- Base ---------- */
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:400 var(--fs)/var(--lh) var(--font);
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit; color:inherit}
+a{color:inherit}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:560px; margin:0 auto; padding:var(--s4) var(--s3) var(--s5)}
+.title{font-size:var(--fs-lg); font-weight:500; margin:0 0 var(--s1); letter-spacing:-.01em}
+.sub{color:var(--muted); font-size:var(--fs-sm); margin:0 0 var(--s3)}
+
+/* ---------- Pieces ---------- */
+.card{background:var(--surface); border-radius:var(--r-card); padding:var(--s3); margin-bottom:var(--s2); box-shadow:var(--shadow)}
+
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:var(--s1);
+  min-height:48px; padding:0 var(--s3); border:0; border-radius:var(--r-pill);
+  background:var(--soft); color:var(--ink); cursor:pointer; text-decoration:none}
+.btn-primary{background:var(--accent); color:var(--on-accent)}
+.btn:active{transform:scale(.97)}
+
+/* Segmented pill switch (like Chat | Work) */
+.seg{display:flex; padding:6px; gap:4px; background:var(--soft); border-radius:var(--r-pill)}
+.seg button{flex:1; min-height:44px; border:0; background:none; border-radius:var(--r-pill); color:var(--ink); cursor:pointer}
+.seg button.on{background:var(--surface); box-shadow:var(--shadow)}
+
+.input{width:100%; min-height:48px; padding:0 var(--s2); border:0; border-radius:var(--r-ctl); background:var(--soft); outline:none}
+.input:focus{box-shadow:0 0 0 2px var(--accent)}
+
+.back{display:inline-flex; align-items:center; gap:6px; color:var(--muted); text-decoration:none; font-size:var(--fs-sm); margin-bottom:var(--s2)}
+.note{font-size:var(--fs-sm); padding:var(--s1) var(--s2); border-radius:var(--r-ctl); background:var(--warn-soft); color:var(--warn)}
+.muted{color:var(--muted)}
