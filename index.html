@@ -21,7 +21,7 @@
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   a.app{display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 14px;color:inherit;text-decoration:none}
   a.app:active{transform:scale(.98)}
-  .emoji{font-size:34px;line-height:1}
+  .ico{width:52px;height:52px;display:block}
   .name{font-weight:700;margin-top:10px}
   .desc{font-size:12px;color:var(--muted);margin-top:2px}
   #install{display:none;width:100%;margin-top:18px;padding:12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-size:15px}
@@ -36,16 +36,31 @@
 </div>
 
 <script>
+// ---- Icons: same style as the app icon (green tile, white + yellow shapes) ----
+const W = "#ffffff", Y = "#f6c453";
+const ICONS = {
+  // checklist: yellow ticks + white lines
+  brain: `<rect x="14" y="15" width="8" height="8" rx="2" fill="${Y}"/><rect x="26" y="17" width="24" height="4" rx="2" fill="${W}"/>
+          <rect x="14" y="28" width="8" height="8" rx="2" fill="${Y}"/><rect x="26" y="30" width="24" height="4" rx="2" fill="${W}"/>
+          <rect x="14" y="41" width="8" height="8" rx="2" fill="${W}"/><rect x="26" y="43" width="16" height="4" rx="2" fill="${W}"/>`,
+  // rising bars
+  sip:   `<rect x="14" y="36" width="9" height="14" rx="2.5" fill="${W}"/><rect x="27.5" y="27" width="9" height="23" rx="2.5" fill="${W}"/>
+          <rect x="41" y="16" width="9" height="34" rx="2.5" fill="${Y}"/>`,
+  // open book
+  book:  `<path d="M12 19 Q22 15 31 19 V48 Q22 44 12 48 Z" fill="${W}"/><path d="M33 19 Q42 15 52 19 V48 Q42 44 33 48 Z" fill="${Y}"/>`,
+};
+const tile = k => `<svg class="ico" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#1f6f5c"/>${ICONS[k]}</svg>`;
+
 // ---- Single source of truth: add a new app = add one line here ----
 const APPS = [
-  { name: "MyBrain",        desc: "To-do + notes",        emoji: "🧠", url: "/mybrain/" },
-  { name: "SIP Calculator", desc: "Monthly ETF splitter", emoji: "📈", url: "/sipcalc/" },
-  { name: "Quiet Reader",   desc: "Markdown book reader", emoji: "📖", url: "/reader/" },
+  { name: "MyBrain",        desc: "To-do + notes",        icon: "brain", url: "/mybrain/" },
+  { name: "SIP Calculator", desc: "Monthly ETF splitter", icon: "sip",   url: "/sipcalc/" },
+  { name: "Quiet Reader",   desc: "Markdown book reader", icon: "book",  url: "/reader/" },
 ];
 
 document.getElementById("grid").innerHTML = APPS.map(a => `
   <a class="app" href="${a.url}">
-    <div class="emoji">${a.emoji}</div>
+    ${tile(a.icon)}
     <div class="name">${a.name}</div>
     <div class="desc">${a.desc}</div>
   </a>`).join("");
