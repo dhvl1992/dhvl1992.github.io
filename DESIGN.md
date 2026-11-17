@@ -15,7 +15,7 @@ into their own CSS instead of linking — but the values must match `theme.css`.
 
 ## The rules
 1. **Colors** — near-white page `#fafafa`, white surfaces, soft grey `#efefef`, black text `#111`, grey secondary text `#757575`.
-   **One accent only: blue `#3366ee`**, used for the single main action on a screen. Dark mode is automatic.
+   **One accent only: blue `#3366ee`**, used for the single main action on a screen. **Always light** — pages declare `color-scheme: only light`, so a phone in dark mode does not darken them.
 2. **Font** — the phone's own system font (Roboto on Android). Regular weight (400–500). No bold headings.
    Body 17px, labels 14px, page title 22px.
 3. **Space** — 8-point scale: 8 / 16 / 24 / 32 / 48. When unsure, add more space, not less.
