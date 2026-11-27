@@ -14,7 +14,7 @@ const PICK = 5;                 // stories per run
 const PER_SOURCE = 4;           // newest N candidates from each source
 const MAX_AGE_DAYS = 7;         // ignore older items (some sources publish weekly)
 const MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]; // tried in order
-const TOPICS = ["AI", "Science", "Money", "Mind", "History", "Business", "Wow"];
+const TOPICS = ["AI", "Science", "Money", "Mind", "History", "Business", "Geopolitics", "Communication", "Wow"];
 const DRY = process.env.DRY_RUN === "1"; // DRY_RUN=1 → print candidates, don't call AI or write files
 
 // Reliable sources with public RSS. A broken one is skipped and logged, never fatal.
@@ -35,6 +35,13 @@ const SOURCES = [
   { name: "JSTOR Daily", url: "https://daily.jstor.org/feed/" },
   { name: "Nautilus", url: "https://nautil.us/feed/" },
   { name: "Big Think", url: "https://bigthink.com/feed/" },
+  // geopolitics explainers
+  { name: "BBC World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
+  { name: "Foreign Policy", url: "https://foreignpolicy.com/feed/" },
+  // communication / how to talk better
+  { name: "Psyche", url: "https://psyche.co/feed" },
+  { name: "Harvard Business Review", url: "https://feeds.hbr.org/harvardbusiness" },
+  { name: "Greater Good (Berkeley)", url: "https://greatergood.berkeley.edu/site/rss/articles" },
 ];
 
 // ---------- small helpers ----------
@@ -91,31 +98,42 @@ async function fetchSource(src) {
 }
 
 // ---------- AI ----------
-const SYSTEM = `You write a daily "Curiosity Feed" for a busy teacher in India who loves learning.
-From the numbered candidate stories, choose exactly ${PICK} and rewrite each one.
+const SYSTEM_BASE = `You write a "Curiosity Feed" for a busy teacher in India who loves learning.
+From the numbered candidate stories, choose exactly ${PICK} STORIES and 1 RABBIT HOLE.
 
 CHOOSE stories that are:
-- surprising, useful or fun to know (an "Aha!" moment), not routine news
-- a MIX of topics: AI, Science, Money, Mind (psychology), History, Business, Wow (surprising facts). Use ${PICK} different topics if possible.
+- surprising, useful or fun (a real "Aha!"), not routine news
+- a MIX of topics: ${TOPICS.join(", ")}. Use ${PICK} different topics. Prefer the "topics needed" listed below.
+- at least one Money or Business story if any candidate fits
 - from at least 3 different sources
-SKIP: politics, crime, war, deaths, celebrity gossip, sales/deals, product launches, very technical stories, and stories without enough facts in the text.
+Topic meanings: Mind = psychology, habits, brain. Communication = how to talk, listen, persuade, write or handle people better.
+Geopolitics = why countries act as they do: trade, borders, resources, alliances, power. Wow = surprising facts.
+SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, very technical stories, and stories without enough facts in the text.
 
 WRITE each story:
 - "headline": max 10 words, plain and curious. No clickbait, no question marks.
-- "body": 3 or 4 very short sentences, 60–90 words total. Simple English (a 12-year-old should understand). Explain any hard word.
-- "aha": ONE sentence, max 25 words: the surprising insight or why it matters in real life.
-- "topic": one of ${TOPICS.join(", ")}.
-- "emoji": one fitting emoji.
+- "body": 4 or 5 short sentences. EVERY sentence max 15 words. 80–100 words in total. Simple English a 12-year-old understands. Explain hard words in a few words.
+- "aha": ONE sentence, max 25 words. It must say something the headline does NOT: a flipped expectation ("You'd think X, but Y"), a hidden link, or what it means for daily life. Never just repeat the story.
+   BAD aha: "Shipwrecks have long been a battlefield where treasure drives competition." (only repeats)
+   GOOD aha: "Old shipwrecks were not just lost treasure. They started the legal fights that still decide who owns the sea floor." (new angle)
+- "topic": one of ${TOPICS.join(", ")}.  "emoji": one fitting emoji.
 
-STRICT: use ONLY facts written in that candidate's title and summary. Do not add numbers, names, dates or claims that are not there. If unsure, choose another story. Do not copy sentences; write in your own words.
+RABBIT HOLE (1 item): take ONE candidate (it may be one of your stories, or another) that opens a deeper question.
+- "title": max 10 words, a curious question or idea.
+- "body": 3 or 4 short sentences (max 15 words each) explaining what the candidate says and why it is worth digging into.
+- "dig": exactly 3 short follow-up questions (max 10 words each) a curious person would search next.
 
-Reply with JSON only: {"stories":[{"id":<candidate number>,"topic":"","emoji":"","headline":"","body":"","aha":""}]}`;
+STRICT FACT RULE: use ONLY facts written in that candidate's title and summary. Do not add numbers, times, speeds ("in minutes", "twice as fast"), names, dates, causes or background facts that are not in the text. If the text is thin, choose another candidate. Do not copy sentences; write in your own words.
+
+Reply with JSON only:
+{"stories":[{"id":<candidate number>,"topic":"","emoji":"","headline":"","body":"","aha":""}],
+ "rabbit":{"id":<candidate number>,"topic":"","emoji":"","title":"","body":"","dig":["","",""]}}`;
 
 const GROQ_URL = process.env.GROQ_URL || "https://api.groq.com/openai/v1/chat/completions"; // override only for tests
-async function askGroq(model, candidates) {
+async function askGroq(model, candidates, system) {
   const user = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, 700)}`).join("\n\n");
   const body = { model, temperature: 0.5, max_tokens: 4000, response_format: { type: "json_object" },
-    messages: [{ role: "system", content: SYSTEM }, { role: "user", content: user }] };
+    messages: [{ role: "system", content: system }, { role: "user", content: user }] };
   let res = await fetch(GROQ_URL, {
     method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + process.env.GROQ_API_KEY }, body: JSON.stringify(body) });
   if (res.status === 400) { // some models reject JSON mode — retry without it
@@ -128,7 +146,7 @@ async function askGroq(model, candidates) {
   const out = json.choices?.[0]?.message?.content || "";
   const m = out.match(/\{[\s\S]*\}/);
   if (!m) throw new Error("no JSON in reply");
-  return JSON.parse(m[0]).stories || [];
+  return JSON.parse(m[0]);
 }
 
 const words = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
@@ -139,7 +157,7 @@ export function validate(stories, candidates) {
     const c = candidates[Number(s.id)];
     if (!c || used.has(s.id)) continue;
     if (!s.headline || !s.body || !s.aha) continue;
-    if (words(s.body) < 30 || words(s.body) > 140) continue; // keeps the 30–40 s read time
+    if (words(s.body) < 55 || words(s.body) > 130) continue; // keeps the 30–40 s read time
     used.add(s.id);
     ok.push({
       id: sha(c.url),
@@ -153,6 +171,22 @@ export function validate(stories, candidates) {
     });
   }
   return ok.slice(0, PICK);
+}
+
+const wikiSearch = (q) => "https://en.wikipedia.org/w/index.php?search=" + encodeURIComponent(q);
+export function validateRabbit(r, candidates) {
+  const c = r && candidates[Number(r.id)];
+  if (!c || !r.title || !r.body || !Array.isArray(r.dig)) return null;
+  const dig = r.dig.map((q) => String(q || "").trim()).filter(Boolean).slice(0, 3);
+  if (dig.length < 2 || words(r.body) < 25 || words(r.body) > 110) return null;
+  return {
+    id: sha("rabbit:" + c.url),
+    topic: TOPICS.includes(r.topic) ? r.topic : "Wow",
+    emoji: String(r.emoji || "🕳️").slice(0, 4),
+    title: String(r.title).trim(), body: String(r.body).trim(),
+    dig: dig.map((q) => ({ q, url: wikiSearch(q) })), // real search links, never AI-made URLs
+    source: c.source, url: c.url,
+  };
 }
 
 // ---------- main ----------
@@ -177,12 +211,22 @@ export async function main() {
   if (candidates.length < PICK) { log("Not enough new stories — keeping the old feed."); return; }
   if (!process.env.GROQ_API_KEY) throw new Error("GROQ_API_KEY secret is missing");
 
-  let stories = [];
+  // Topic balance: which topics showed up least in the last 2 days → ask for those first
+  const old = await readJson(FEED_FILE, { runs: [] });
+  const count = Object.fromEntries(TOPICS.map((t) => [t, 0]));
+  (old.runs || []).forEach((r) => (r.stories || []).forEach((st) => { if (st.topic in count) count[st.topic]++; }));
+  const needed = TOPICS.slice().sort((a, b) => count[a] - count[b]).slice(0, 5);
+  log("Topics needed most:", needed.join(", "));
+  const system = SYSTEM_BASE + `\n\nTopics needed most right now: ${needed.join(", ")}.`;
+
+  let stories = [], rabbit = null;
   for (const model of MODELS) {
     try {
       log("Asking", model);
-      stories = validate(await askGroq(model, candidates), candidates);
-      log(`  got ${stories.length} good stories`);
+      const out = await askGroq(model, candidates, system);
+      stories = validate(out.stories || [], candidates);
+      rabbit = validateRabbit(out.rabbit, candidates);
+      log(`  got ${stories.length} good stories, rabbit hole: ${rabbit ? "yes" : "no"}`);
       if (stories.length >= 3) break; // 3+ is a usable run; else try the next model
     } catch (e) { log("  failed:", e.message); }
   }
@@ -191,7 +235,7 @@ export async function main() {
   const feed = await readJson(FEED_FILE, { runs: [] });
   const now = new Date().toISOString();
   const keepFrom = Date.now() - KEEP_HOURS * 3600e3;
-  feed.runs = [{ at: now, stories }, ...(feed.runs || []).filter((r) => Date.parse(r.at) >= keepFrom)];
+  feed.runs = [{ at: now, stories, ...(rabbit ? { rabbit } : {}) }, ...(feed.runs || []).filter((r) => Date.parse(r.at) >= keepFrom)];
   feed.updated = now;
   await mkdir("feed", { recursive: true });
   await writeFile(FEED_FILE, JSON.stringify(feed, null, 1));
@@ -199,6 +243,7 @@ export async function main() {
   await writeFile(SEEN_FILE, JSON.stringify(newSeen));
   log(`Saved ${stories.length} stories. Feed now has ${feed.runs.reduce((n, r) => n + r.stories.length, 0)} stories in ${feed.runs.length} runs.`);
   stories.forEach((s) => log(`  [${s.topic}] ${s.headline} — ${s.source}`));
+  if (rabbit) log(`  🕳️ [${rabbit.topic}] ${rabbit.title} — ${rabbit.source}`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e); process.exit(1); });
