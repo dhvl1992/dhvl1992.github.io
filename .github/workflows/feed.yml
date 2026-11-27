@@ -1,0 +1,44 @@
+# Curiosity Feed: builds feed/feed.json 4× a day.
+# Times are UTC → India: 00:30=6:00 AM, 07:30=1:00 PM, 12:00=5:30 PM, 15:30=9:00 PM.
+# GitHub may start scheduled runs 5–30 min late. Run by hand: Actions → Curiosity Feed → Run workflow.
+name: Curiosity Feed
+
+on:
+  schedule:
+    - cron: "30 0 * * *"
+    - cron: "30 7 * * *"
+    - cron: "0 12 * * *"
+    - cron: "30 15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: curiosity-feed
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build feed
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: node scripts/feed.mjs
+
+      - name: Save feed if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add feed
+          git diff --cached --quiet && { echo "No change"; exit 0; }
+          git commit -m "Curiosity Feed $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase origin main
+          git push
