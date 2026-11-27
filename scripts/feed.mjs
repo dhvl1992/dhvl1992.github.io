@@ -16,7 +16,9 @@ const MAX_CANDIDATES = 40;      // keeps one request under Groq free limit (8,00
 const SUMMARY_CHARS = 420;      // per candidate
 const MAX_AGE_DAYS = 7;         // ignore older items (some sources publish weekly)
 const MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]; // tried in order
-const TOPICS = ["AI", "Science", "Money", "Mind", "History", "Business", "Geopolitics", "Communication", "Wow"];
+const TOPICS = ["AI", "Science", "Money", "Mind", "History", "Business", "Geopolitics", "Communication & Persuasion", "Wow",
+  "Economics", "Ethics", "Math", "Tech"];
+const OLD_NAMES = { Communication: "Communication & Persuasion" }; // older stories used these names
 const DRY = process.env.DRY_RUN === "1"; // DRY_RUN=1 → print candidates, don't call AI or write files
 
 // Reliable sources with public RSS. A broken one is skipped and logged, never fatal.
@@ -44,6 +46,10 @@ const SOURCES = [
   { name: "Psyche", url: "https://psyche.co/feed" },
   { name: "Harvard Business Review", url: "https://feeds.hbr.org/harvardbusiness" },
   { name: "Greater Good (Berkeley)", url: "https://greatergood.berkeley.edu/site/rss/articles" },
+  // economics, game theory, ethics, computers (Quanta covers math, Psyche + PsyPost cover psychology)
+  { name: "Marginal Revolution", url: "https://marginalrevolution.com/feed" },
+  { name: "Aeon", url: "https://aeon.co/feed.rss" },
+  { name: "Ars Technica Tech", url: "https://feeds.arstechnica.com/arstechnica/technology-lab" },
 ];
 
 // ---------- small helpers ----------
@@ -131,11 +137,15 @@ From the numbered candidates, choose exactly ${PICK} STORIES and 1 RABBIT HOLE.
 CHOOSE stories that are surprising, useful or fun (a real "Aha!"), not routine news.
 - Use ${PICK} different topics from: ${TOPICS.join(", ")}. Prefer the "topics needed" listed below.
 - At least one Money or Business story if any candidate fits. At least 3 different sources.
-Topic meanings: Mind = psychology, habits, brain. Communication = how PEOPLE talk, listen, persuade, write or handle each other
-(never computer networks or telecom). Geopolitics = why countries act as they do: trade, borders, resources, alliances, power.
-Money = personal money, prices, jobs, economy. Business = companies and how industries work. Wow = surprising facts.
+Topic meanings: Mind = psychology, habits, brain, why people think and feel as they do.
+Communication & Persuasion = how PEOPLE talk, listen, persuade, influence, write or handle each other (never computer networks or telecom).
+Economics = microeconomics and game theory: incentives, how people and firms make choices, prices, competition, strategy.
+Ethics = right and wrong, moral dilemmas, fairness, what we owe each other. Math = mathematical ideas, puzzles, proofs, patterns.
+Tech = how computers, software, the internet and chips work (not AI; that is AI). Geopolitics = why countries act as they do: trade, borders, resources, alliances, power.
+Money = personal money, savings, prices in daily life, jobs. Business = companies and how industries work. Wow = surprising facts.
 Give each story its TRUE topic. If no candidate truly fits a needed topic, skip that topic — never force a label.
-SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, very technical stories.
+SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, gadget reviews.
+Math, Tech and Economics stories are welcome when the core idea can be explained simply; skip ones that need heavy jargon.
 RABBIT HOLE: one more candidate (not one of the stories) that opens a deeper question worth exploring.
 Reply with JSON only: {"stories":[{"id":<number>,"topic":""}],"rabbit":{"id":<number>,"topic":""}}`;
 
@@ -205,7 +215,7 @@ export function validate(stories, candidates) {
     used.add(idx);
     ok.push({
       id: sha(c.url),
-      topic: TOPICS.includes(s.topic) ? s.topic : "Wow",
+      topic: fixTopic(s.topic),
       emoji: String(s.emoji || "✨").slice(0, 4),
       headline: String(s.headline).trim(),
       body: String(s.body).trim(),
@@ -217,6 +227,14 @@ export function validate(stories, candidates) {
   return ok.slice(0, PICK);
 }
 
+// AI sometimes shortens or re-cases a topic ("Persuasion", "math") → map it back to the real name
+export function fixTopic(t) {
+  const k = String(t || "").trim().toLowerCase();
+  return TOPICS.find((x) => x.toLowerCase() === k)
+    || TOPICS.find((x) => x.toLowerCase().split(" & ").includes(k))
+    || OLD_NAMES[Object.keys(OLD_NAMES).find((o) => o.toLowerCase() === k)]
+    || "Wow";
+}
 const wikiSearch = (q) => "https://en.wikipedia.org/w/index.php?search=" + encodeURIComponent(q);
 export function validateRabbit(r, candidates) {
   const c = r && candidates[toIdx(r.id)];
@@ -226,7 +244,7 @@ export function validateRabbit(r, candidates) {
   if (dig.length < 2 || words(r.body) < 25 || words(r.body) > 110) return null;
   return {
     id: sha("rabbit:" + c.url),
-    topic: TOPICS.includes(r.topic) ? r.topic : "Wow",
+    topic: fixTopic(r.topic),
     emoji: String(r.emoji || "🕳️").slice(0, 4),
     title: String(r.title).trim(), body: String(r.body).trim(),
     dig: dig.map((q) => ({ q, url: wikiSearch(q) })), // real search links, never AI-made URLs
@@ -267,8 +285,9 @@ export async function main() {
   // Topic balance: which topics showed up least in the last 2 days → ask for those first
   const old = await readJson(FEED_FILE, { runs: [] });
   const count = Object.fromEntries(TOPICS.map((t) => [t, 0]));
-  (old.runs || []).forEach((r) => (r.stories || []).forEach((st) => { if (st.topic in count) count[st.topic]++; }));
-  const needed = TOPICS.slice().sort((a, b) => count[a] - count[b]).slice(0, 5);
+  (old.runs || []).forEach((r) => (r.stories || []).forEach((st) => { const t = OLD_NAMES[st.topic] || st.topic; if (t in count) count[t]++; }));
+  const needed = TOPICS.slice().sort(() => Math.random() - 0.5) // shuffle first so ties don't always favour the same topic
+    .sort((a, b) => count[a] - count[b]).slice(0, 5);
   log("Topics needed most:", needed.join(", "));
   const listText = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, SUMMARY_CHARS)}`).join("\n\n");
   const pickSystem = PICK_PROMPT + `\n\nTopics needed most right now: ${needed.join(", ")}.`;
