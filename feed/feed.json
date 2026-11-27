@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T06:09:38.916Z",
+   "stories": [
+    {
+     "id": "68d12cc1e2c8",
+     "topic": "Business",
+     "emoji": "💹",
+     "headline": "Nvidia’s Surge Shakes Asian Tech Markets",
+     "body": "Nvidia’s share price jumped nearly a trillion dollars, lifting Asian tech indices. Investors cheered the rise, then worried about political scrutiny. The chipmaker is seen as a key AI bellwether for South Korea, Taiwan, Singapore, Malaysia. These economies depend on Nvidia for chip manufacturing, data centres, and AI exports. Taiwan’s growth since 2024 is tied to AI-related exports, per research firm East Asia Econ. Nvidia plans to invest $150bn a year in Taiwan, boosting local industry. The company outsources most production to TSMC, linking Taiwan’s economy to AI demand.",
+     "aha": "You’d think a single chip company would only affect tech stocks, but it now shapes entire economies.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/cqevr4lnd1nxo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-26T23:08:12.000Z",
+     "readSec": 34
+    },
+    {
+     "id": "f5f3b4f6b4c3",
+     "topic": "Geopolitics",
+     "emoji": "🌍",
+     "headline": "Ukraine Attacks Russian Ships in Libya, Africa’s New Proxy War",
+     "body": "Ukraine launched drone strikes on Russian vessels docked in Benghazi. Zelensky called the operation exemplary, a response to Russia’s war. UN mission UNSMIL urged an independent investigation, warning Libya should not become a battleground. Both Libyan governments denounced the attacks, while Russia seeks new African bases. The strikes raise fears that Africa could become a proxy theater in the Russia‑Ukraine conflict.",
+     "aha": "You’d think Ukraine’s war would stay in Europe, but it now reaches African seas.",
+     "source": "Foreign Policy",
+     "url": "https://foreignpolicy.com/2026/11/25/ukraine-russia-proxy-war-africa-libya-ship-attack/",
+     "published": "2026-11-26T00:00:59.000Z",
+     "readSec": 26
+    },
+    {
+     "id": "9c34aef61329",
+     "topic": "Communication",
+     "emoji": "🗣️",
+     "headline": "Labeling AI‑Generated Texts Doesn’t Change How People Rate Them",
+     "body": "An online German study tested if AI labels affect text ratings. Participants read nutrition texts with or without an AI label. Only 42% noticed the label, yet ratings stayed similar across groups. The study suggests people often ignore AI source information in health advice.",
+     "aha": "You’d expect a label to warn readers, but most simply read on.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/marking-an-informational-text-as-ai-generated-does-not-influence-its-ratings-study-finds/",
+     "published": "2026-11-26T21:00:08.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "91c2507a28b4",
+     "topic": "Wow",
+     "emoji": "🐠",
+     "headline": "Deep‑Sea Species Face Hidden Extinction Crisis",
+     "body": "Researchers examined 12 years of genetic data from Gulf deep‑sea species. Five species showed signs of extinction risk, including lanternfish and shrimp. One lanternfish lost 8% genetic diversity in 12 years, matching endangered land animals. Small effective population sizes mean few individuals pass genes to next generation. The study challenges the idea that deep ocean life is naturally resilient.",
+     "aha": "You’d think the deep sea is safe, but its species are losing genetic diversity.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261125045249.htm",
+     "published": "2026-11-27T01:55:42.000Z",
+     "readSec": 24
+    },
+    {
+     "id": "086c38bcd379",
+     "topic": "Mind",
+     "emoji": "🧠",
+     "headline": "Most Brain Cells Are Generalists, Not Specialists",
+     "body": "Scientists studied mouse brain recordings to test neuron specialization. Findings show most neurons respond to many types of information. Only a few neurons act as specialists, like dedicated tools. This flexibility helps the brain solve many tasks and adapt to changes.",
+     "aha": "You’d think each neuron has a single job, but most are versatile Swiss Army knives.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261125045302.htm",
+     "published": "2026-11-26T21:36:09.000Z",
+     "readSec": 20
+    }
+   ],
+   "rabbit": {
+    "id": "4e6a6085b669",
+    "topic": "Money",
+    "emoji": "💸",
+    "title": "AI Boom Fuels Inflation, Shakes Markets",
+    "body": "The U.S. economy grew fast during summer and early fall. Artificial intelligence growth contributed to higher inflation. Higher inflation rattles the stock market. The AI boom is a new driver of economic change.",
+    "dig": [
+     {
+      "q": "How does AI increase inflation?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20AI%20increase%20inflation%3F"
+     },
+     {
+      "q": "What sectors feel AI’s inflationary impact?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20sectors%20feel%20AI%E2%80%99s%20inflationary%20impact%3F"
+     },
+     {
+      "q": "Can markets stabilize amid AI‑driven inflation?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20markets%20stabilize%20amid%20AI%E2%80%91driven%20inflation%3F"
+     }
+    ],
+    "source": "NPR Economy",
+    "url": "https://www.npr.org/2026/11/25/nx-s1-6053958/inflation-is-still-hot-fueled-in-part-by-the-ai-boom"
+   }
+  },
+  {
    "at": "2026-11-27T06:04:04.015Z",
    "stories": [
     {
@@ -218,5 +306,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T06:04:04.015Z"
+ "updated": "2026-11-27T06:09:38.916Z"
 }
