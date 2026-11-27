@@ -7,7 +7,8 @@
 // - Right: account button (your MyBrain login) → menu: Open MyBrain, Install as app, Log out
 // - Phone: hides when you scroll down, comes back when you scroll up
 // - Sealed (Shadow DOM): app CSS can't break the bar, the bar can't break the app
-// - Apps can use var(--topbar-h) to keep fixed parts below the bar
+// - Apps can use var(--topbar-h) to keep fixed parts below the bar (it becomes 0px while the bar is off)
+// - Full-screen modes (reading a book, a game): document.dispatchEvent(new Event("topbar:off")) / ("topbar:on")
 // =========================================================
 (function () {
   if (window.__topbar) return; // only once per page
@@ -130,6 +131,16 @@
       } catch { try { localStorage.removeItem(SB_KEY); } catch {} }
       location.reload();
     });
+
+    // Apps can switch the bar off for full-screen modes, and back on
+    const setOff = (off) => {
+      host.style.setProperty("display", off ? "none" : "block", "important");
+      document.documentElement.style.setProperty("--topbar-h", off ? "0px" : BAR_H + "px");
+      if (off) toggle(false);
+    };
+    document.addEventListener("topbar:off", () => setOff(true));
+    document.addEventListener("topbar:on", () => setOff(false));
+    if (window.__topbarOff) setOff(true); // the app asked before the bar was ready
 
     // Phone: hide on scroll down, show on scroll up
     function setHidden(h) {

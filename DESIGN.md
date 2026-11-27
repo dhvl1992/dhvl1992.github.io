@@ -12,6 +12,8 @@ The values live in [`theme.css`](theme.css). Do not invent new colors, fonts or 
 ```
 `/topbar.js` adds the bar (logo + "dhvl1992 › App name" → home, account menu). It reads the app list from `/apps.js`.
 Fixed parts of an app (bottom tabs, side panels) should start below the bar: `top: var(--topbar-h)`.
+Full-screen modes (reading a book, a game): `window.__topbarOff = true; document.dispatchEvent(new Event("topbar:off"))`,
+and `topbar:on` to bring the bar back. `--topbar-h` becomes `0px` while it is off.
 Start every new app from [`_template/index.html`](_template/index.html).
 Then use the tokens (`var(--bg)`, `var(--accent)` …) and the ready classes:
 `.wrap` `.title` `.sub` `.card` `.btn` `.btn-primary` `.seg` `.input` `.back` `.note` `.muted`.
