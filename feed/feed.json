@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T16:56:21.942Z",
+   "stories": [
+    {
+     "id": "5ebf1b09ffa6",
+     "topic": "Economics",
+     "emoji": "🛍️",
+     "headline": "Americans keep buying on Black Friday despite tight wallets",
+     "body": "Professors note shoppers still rush stores during holidays. They cite surveys showing many feel financial pressure. Gaffney explains people seek deals to feel normal. Spending helps boost the economy even when money is scarce.",
+     "aha": "People think tight budgets stop holiday splurges, but sales still lift the economy.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/27/nx-s1-6054846/why-americans-are-still-black-friday-shopping-despite-strained-wallets",
+     "published": "2026-11-27T09:45:35.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "2ef3104a86ba",
+     "topic": "Ethics",
+     "emoji": "🔧",
+     "headline": "Rogue tradesmen scam customers with huge fake invoices",
+     "body": "BBC uncovered networks of plumbers and electricians ripping off people. TikTok star ThatGuyNess bragged about making thousands from desperate clients. Victims like Clive paid over nine thousand for a simple socket. Authorities say such scams now cost victims around ten thousand pounds.",
+     "aha": "The scammers pose as entertainers online, yet they run real‑world fraud operations.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/c65yme31k7m2o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T00:58:49.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "99727b65c290",
+     "topic": "Tech",
+     "emoji": "🐦",
+     "headline": "Researchers plant two million digital canaries in AI services",
+     "body": "Scientists seeded unique secrets into AI prompts to track leaks. They sent nearly two million requests through many AI routers. The experiment showed sensitive data easily escaped through the chain. Findings reveal AI ecosystems act like sieves, leaking private information.",
+     "aha": "AI routers meant to protect users instead become highways for data leaks.",
+     "source": "Ars Technica Tech",
+     "url": "https://arstechnica.com/security/2026/11/a-leaky-ai-supply-chain-is-exposing-secret-user-data-at-an-alarming-rate/",
+     "published": "2026-11-20T20:59:08.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "9b5da64acfbf",
+     "topic": "Math",
+     "emoji": "🔬",
+     "headline": "Do atoms ever truly touch when fingers meet?",
+     "body": "Big Think explains forces can act without physical contact. Atoms are mostly empty space, filled by electron clouds. When fingers approach, electron clouds repel before atoms meet. Thus, on a tiny scale, objects never actually touch.",
+     "aha": "Even when you feel contact, it’s just electron clouds pushing each other, not solid atoms.",
+     "source": "Big Think",
+     "url": "https://bigthink.com/starts-with-a-bang/do-atoms-touch/",
+     "published": "2026-11-27T07:00:00.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "429fe93a563d",
+     "topic": "Communication & Persuasion",
+     "emoji": "🗣️",
+     "headline": "Narcissistic workers use friendship and gossip to climb ladders",
+     "body": "Researchers studied how self‑absorbed employees seek boss approval. They found such workers bond with managers and ask for favors. They also spread negative gossip to weaken rivals. These tactics help them gain status despite being lower‑rank.",
+     "aha": "Instead of competence, they rely on flattery and sabotage to rise.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/how-narcissistic-employees-manipulate-their-way-to-the-top/",
+     "published": "2026-11-27T14:00:11.000Z",
+     "readSec": 20
+    }
+   ],
+   "rabbit": {
+    "id": "cdcdfc17cacf",
+    "topic": "Tech",
+    "emoji": "🌌",
+    "title": "How a million new satellites could change our night sky",
+    "body": "FCC approved SpaceX’s plan for one million AI data‑centre satellites. Such a fleet would multiply current satellites fifty‑fold. Burning satellites deposit metals like aluminium into the upper atmosphere. Aluminium can damage ozone, increasing UV light reaching Earth.",
+    "dig": [
+     {
+      "q": "Will the sky look crowded with satellites?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Will%20the%20sky%20look%20crowded%20with%20satellites%3F"
+     },
+     {
+      "q": "How does metal deposition affect ozone?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20metal%20deposition%20affect%20ozone%3F"
+     },
+     {
+      "q": "What happens to satellites after five years?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20happens%20to%20satellites%20after%20five%20years%3F"
+     }
+    ],
+    "source": "The Conversation",
+    "url": "https://theconversation.com/elon-musk-has-approval-to-launch-1-million-satellites-an-astronomer-explains-how-this-would-impact-the-sky-297646"
+   }
+  },
+  {
    "at": "2026-11-27T16:23:02.074Z",
    "stories": [
     {
@@ -482,5 +570,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T16:23:02.074Z"
+ "updated": "2026-11-27T16:56:21.942Z"
 }
