@@ -18,6 +18,13 @@ const MAX_AGE_DAYS = 7;         // ignore older items (some sources publish week
 const MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]; // tried in order
 const TOPICS = ["AI", "Science", "Money", "Mind", "History", "Business", "Geopolitics", "Communication & Persuasion", "Wow",
   "Economics", "Ethics", "Math", "Tech"];
+const NEEDED = 3; // topics to ask for each run (asking for many made the AI stretch labels)
+// Sources that reliably cover a topic: when that topic is needed, their stories are always among the candidates
+const TOPIC_SOURCES = {
+  Math: ["Quanta Magazine"], Ethics: ["Aeon", "Psyche"], Economics: ["Marginal Revolution", "NPR Economy"],
+  Tech: ["Ars Technica Tech"], "Communication & Persuasion": ["Psyche", "Greater Good (Berkeley)", "PsyPost"],
+  Mind: ["PsyPost", "Psyche"], Geopolitics: ["Foreign Policy", "BBC World"], History: ["Smithsonian", "JSTOR Daily"],
+};
 const OLD_NAMES = { Communication: "Communication & Persuasion" }; // older stories used these names
 const DRY = process.env.DRY_RUN === "1"; // DRY_RUN=1 → print candidates, don't call AI or write files
 
@@ -144,6 +151,8 @@ Ethics = right and wrong, moral dilemmas, fairness, what we owe each other. Math
 Tech = how computers, software, the internet and chips work (not AI; that is AI). Geopolitics = why countries act as they do: trade, borders, resources, alliances, power.
 Money = personal money, savings, prices in daily life, jobs. Business = companies and how industries work. Wow = surprising facts.
 Give each story its TRUE topic. If no candidate truly fits a needed topic, skip that topic — never force a label.
+Label honestly: physics, space, biology = Science (not Math). Math only if the story is about a mathematical idea.
+Ethics only if the article itself discusses a moral question; a crime or scam report is not Ethics.
 SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, gadget reviews.
 Math, Tech and Economics stories are welcome when the core idea can be explained simply; skip ones that need heavy jargon.
 RABBIT HOLE: one more candidate (not one of the stories) that opens a deeper question worth exploring.
@@ -274,21 +283,25 @@ export async function main() {
     if (it.summary.length < 80) continue; // not enough facts to write from safely
     (bySource[it.source] ||= []).push(it);
   }
-  const candidates = Object.values(bySource).flatMap((list) =>
-    list.sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, PER_SOURCE))
-    .sort(() => Math.random() - 0.5).slice(0, MAX_CANDIDATES); // shuffle so no source always wins
-  log(`Candidates: ${candidates.length} from ${Object.keys(bySource).length} sources`);
-  if (DRY) { candidates.forEach((c, i) => log(`#${i} [${c.source}] ${c.title}`)); return; }
-  if (candidates.length < PICK) { log("Not enough new stories — keeping the old feed."); return; }
-  if (!process.env.GROQ_API_KEY) throw new Error("GROQ_API_KEY secret is missing");
-
   // Topic balance: which topics showed up least in the last 2 days → ask for those first
   const old = await readJson(FEED_FILE, { runs: [] });
   const count = Object.fromEntries(TOPICS.map((t) => [t, 0]));
   (old.runs || []).forEach((r) => (r.stories || []).forEach((st) => { const t = OLD_NAMES[st.topic] || st.topic; if (t in count) count[t]++; }));
   const needed = TOPICS.slice().sort(() => Math.random() - 0.5) // shuffle first so ties don't always favour the same topic
-    .sort((a, b) => count[a] - count[b]).slice(0, 5);
+    .sort((a, b) => count[a] - count[b]).slice(0, NEEDED);
   log("Topics needed most:", needed.join(", "));
+  // Candidates: newest few from every source. Sources that suit the needed topics always get in;
+  // the rest are shuffled so no source always wins. Final order shuffled too.
+  const newest = (list) => list.sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, PER_SOURCE);
+  const sure = new Set(needed.flatMap((t) => TOPIC_SOURCES[t] || []));
+  const first = [...sure].flatMap((name) => newest(bySource[name] || []));
+  const rest = Object.keys(bySource).filter((n) => !sure.has(n)).flatMap((n) => newest(bySource[n])).sort(() => Math.random() - 0.5);
+  const candidates = [...first, ...rest].slice(0, MAX_CANDIDATES).sort(() => Math.random() - 0.5);
+  log(`Candidates: ${candidates.length} from ${Object.keys(bySource).length} sources`);
+  if (DRY) { candidates.forEach((c, i) => log(`#${i} [${c.source}] ${c.title}`)); return; }
+  if (candidates.length < PICK) { log("Not enough new stories — keeping the old feed."); return; }
+  if (!process.env.GROQ_API_KEY) throw new Error("GROQ_API_KEY secret is missing");
+
   const listText = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, SUMMARY_CHARS)}`).join("\n\n");
   const pickSystem = PICK_PROMPT + `\n\nTopics needed most right now: ${needed.join(", ")}.`;
 
