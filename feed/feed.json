@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T20:40:30.754Z",
+   "stories": [
+    {
+     "id": "6f937299d9db",
+     "topic": "Tech",
+     "emoji": "🛡️",
+     "headline": "Backblaze Will Share Some User Data With Advertisers",
+     "body": "Backblaze says it will not share backup files with advertisers. Customers learned a new privacy policy will start next month. The policy lists data types that may be sold to marketing partners. It includes names, addresses, IPs, purchase histories, and geolocation. The company says it will not sell call recordings or sensitive data. Some users are worried about the new sharing rules. The policy applies only to account data, not stored content.",
+     "aha": "You’d think a backup company would keep all data private, but it is selling parts of it.",
+     "source": "Ars Technica Tech",
+     "url": "https://arstechnica.com/information-technology/2026/11/backblaze-explains-why-its-sharing-customer-information-with-advertisers/",
+     "published": "2026-11-25T18:38:29.000Z",
+     "readSec": 29
+    },
+    {
+     "id": "3e56a8e6d42a",
+     "topic": "Tech",
+     "emoji": "🚀",
+     "headline": "NASA’s Asteroid Hit Leaves Huge Crater Visible from Space",
+     "body": "NASA’s DART probe smashed an asteroid in 2022. The impact shortened the asteroid’s orbit by 33 minutes. Scientists saw the hit but not the crater’s size. ESA’s Hera spacecraft arrived two years later. Hera captured images of a stadium‑sized crater. The crater is almost half the asteroid’s size. The find shows how asteroid impacts reshape space objects.",
+     "aha": "The crater is so big that it looks like a stadium, not just a tiny hole.",
+     "source": "Ars Technica",
+     "url": "https://arstechnica.com/space/2026/11/europes-hera-mission-returns-to-the-chaotic-scene-of-a-cosmic-smashup/",
+     "published": "2026-11-25T22:36:45.000Z",
+     "readSec": 25
+    },
+    {
+     "id": "a900216d050d",
+     "topic": "Economics",
+     "emoji": "🛒",
+     "headline": "Black Friday May See Record Spending This Year",
+     "body": "Black Friday sales could be the highest of the year. Inflation and economic uncertainty influence shoppers’ choices. Retailers are offering large discounts to attract buyers. Consumers are spending more on electronics and gifts.",
+     "aha": "So what: higher spending means more jobs in retail, but also more waste.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/27/nx-s1-6047460/record-spending-expected-on-black-friday",
+     "published": "2026-11-27T09:45:48.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "21fa01d0d2b8",
+     "topic": "Economics",
+     "emoji": "📚",
+     "headline": "Friday Links Cover Blockchain, Jobs, and Ancient Scripts",
+     "body": "A post lists six academic and industry resources. Topics include blockchain society, job market indices, and ancient scripts. The links span open access books and interviews. They aim to broaden readers’ knowledge across fields.",
+     "aha": "Hidden link: a behavioral cost of living index could change how we view wages.",
+     "source": "Marginal Revolution",
+     "url": "https://marginalrevolution.com/marginalrevolution/2026/11/friday-assorted-links-601.html?utm_source=rss&utm_medium=rss&utm_campaign=friday-assorted-links-601",
+     "published": "2026-11-27T17:39:47.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "91374f1def80",
+     "topic": "Science",
+     "emoji": "🌊",
+     "headline": "Scientists Find Salt‑Rich Lakes Deep Under the Red Sea",
+     "body": "Researchers discovered brine pools over a mile below sea level. The pools are extremely salty and lack oxygen. Microbes thrive in these harsh conditions, offering clues to life limits. The discovery may help search for life on other planets. The pools also preserve geological records of ancient events. The team nearly missed the pools during a short dive.",
+     "aha": "The salty lakes are so extreme that they could teach us how life survives on icy moons.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261125045259.htm",
+     "published": "2026-11-26T02:42:37.000Z",
+     "readSec": 25
+    }
+   ],
+   "rabbit": {
+    "id": "22a121a6dcee",
+    "topic": "Science",
+    "emoji": "🕳️",
+    "title": "Could a Black Hole Be Older Than the First Stars?",
+    "body": "Scientists saw a star brighten for an hour in the Large Magellanic Cloud. The brightening pattern suggests a gravitational microlensing event. The invisible object might be a rogue planet or a primordial black hole. A primordial black hole would be older than the first stars.",
+    "dig": [
+     {
+      "q": "What is a primordial black hole?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20is%20a%20primordial%20black%20hole%3F"
+     },
+     {
+      "q": "How does microlensing work?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20microlensing%20work%3F"
+     },
+     {
+      "q": "Could this change our view of the early universe?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Could%20this%20change%20our%20view%20of%20the%20early%20universe%3F"
+     }
+    ],
+    "source": "ScienceDaily",
+    "url": "https://www.sciencedaily.com/releases/2026/11/261122060346.htm"
+   }
+  },
+  {
    "at": "2026-11-27T17:02:10.553Z",
    "stories": [
     {
@@ -658,5 +746,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T17:02:10.553Z"
+ "updated": "2026-11-27T20:40:30.754Z"
 }
