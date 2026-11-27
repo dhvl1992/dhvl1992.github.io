@@ -114,7 +114,7 @@ SKIP: election fights, party politics, crime, war casualties, deaths, celebrity 
 
 WRITE each story:
 - "headline": max 10 words, plain and curious. No clickbait, no question marks.
-- "body": 4 or 5 short sentences. EVERY sentence max 15 words. 80–100 words in total. Simple English a 12-year-old understands. Explain hard words in a few words.
+- "body": a LIST of exactly 5 short sentences that tell the story in order. Each sentence 10–15 words. Simple English a 12-year-old understands. Explain hard words in a few words.
 - "aha": ONE sentence, max 25 words. It must say something the headline does NOT: a flipped expectation ("You'd think X, but Y"), a hidden link, or what it means for daily life. Never just repeat the story.
    BAD aha: "Shipwrecks have long been a battlefield where treasure drives competition." (only repeats)
    GOOD aha: "Old shipwrecks were not just lost treasure. They started the legal fights that still decide who owns the sea floor." (new angle)
@@ -128,18 +128,21 @@ RABBIT HOLE (1 item): take ONE candidate (it may be one of your stories, or anot
 STRICT FACT RULE: use ONLY facts written in that candidate's title and summary. Do not add numbers, times, speeds ("in minutes", "twice as fast"), names, dates, causes or background facts that are not in the text. If the text is thin, choose another candidate. Do not copy sentences; write in your own words.
 
 Reply with JSON only:
-{"stories":[{"id":<candidate number>,"topic":"","emoji":"","headline":"","body":"","aha":""}],
+{"stories":[{"id":<candidate number>,"topic":"","emoji":"","headline":"","body":["","","","",""],"aha":""}],
  "rabbit":{"id":<candidate number>,"topic":"","emoji":"","title":"","body":"","dig":["","",""]}}`;
 
 const GROQ_URL = process.env.GROQ_URL || "https://api.groq.com/openai/v1/chat/completions"; // override only for tests
 async function askGroq(model, candidates, system) {
   const user = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, SUMMARY_CHARS)}`).join("\n\n");
-  const body = { model, temperature: 0.5, max_tokens: 4000, response_format: { type: "json_object" },
+  const body = { model, temperature: 0.5, max_tokens: 3500, response_format: { type: "json_object" },
+    // "thinking" models: think briefly, so the answer still fits in the budget
+    ...(/gpt-oss/.test(model) ? { reasoning_effort: "low" } : /qwen/.test(model) ? { reasoning_effort: "none" } : {}),
     messages: [{ role: "system", content: system }, { role: "user", content: user }] };
   let res = await fetch(GROQ_URL, {
     method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + process.env.GROQ_API_KEY }, body: JSON.stringify(body) });
-  if (res.status === 400) { // some models reject JSON mode — retry without it
-    delete body.response_format;
+  if (res.status === 400) { // some models reject JSON mode or thinking settings — retry without them
+    log("  400:", (await res.text()).slice(0, 160));
+    delete body.response_format; delete body.reasoning_effort;
     res = await fetch(GROQ_URL, {
       method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + process.env.GROQ_API_KEY }, body: JSON.stringify(body) });
   }
@@ -158,10 +161,11 @@ export function validate(stories, candidates) {
   const used = new Set();
   const ok = [];
   for (const s of stories) {
+    if (Array.isArray(s.body)) s.body = s.body.map((x) => String(x).trim()).filter(Boolean).join(" ");
     const idx = toIdx(s.id), c = candidates[idx];
     const why = !c ? `unknown id ${JSON.stringify(s.id)}` : used.has(idx) ? "duplicate"
       : !s.headline || !s.body || !s.aha ? "missing headline/body/aha"
-      : words(s.body) < 45 || words(s.body) > 140 ? `body has ${words(s.body)} words` : ""; // keeps the 30–40 s read time
+      : words(s.body) < 40 || words(s.body) > 140 ? `body has ${words(s.body)} words` : ""; // keeps the 30–40 s read time
     if (why) { log(`    rejected: ${why} — ${String(s.headline || "").slice(0, 50)}`); continue; }
     used.add(idx);
     ok.push({
@@ -181,6 +185,7 @@ export function validate(stories, candidates) {
 const wikiSearch = (q) => "https://en.wikipedia.org/w/index.php?search=" + encodeURIComponent(q);
 export function validateRabbit(r, candidates) {
   const c = r && candidates[toIdx(r.id)];
+  if (r && Array.isArray(r.body)) r.body = r.body.join(" ");
   if (!c || !r.title || !r.body || !Array.isArray(r.dig)) return null;
   const dig = r.dig.map((q) => String(q || "").trim()).filter(Boolean).slice(0, 3);
   if (dig.length < 2 || words(r.body) < 25 || words(r.body) > 110) return null;
