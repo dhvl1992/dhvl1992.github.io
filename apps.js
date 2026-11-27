@@ -33,7 +33,7 @@
       { name: "SIP Calculator", desc: "Monthly ETF splitter", icon: "sip",   url: "/sipcalc/" },
       { name: "Quiet Reader",   desc: "Markdown book reader", icon: "book",  url: "/reader/" },
       { name: "PDF to JPG",     desc: "Pages to images",      icon: "pdf",   url: "/pdf2jpg/" },
-      { name: "ReelScribe",     desc: "Reel / voice → text",  icon: "reel",  url: "/reelscribe/" },
+      { name: "ReelScribe",     desc: "Reel / voice → text",  icon: "reel",  url: "/Reelscribe/" }, // repo name has a capital R; web addresses are case-sensitive
     ],
   };
   // Which app is this page? (longest matching address wins)
