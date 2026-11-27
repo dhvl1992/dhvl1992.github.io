@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T16:23:02.074Z",
+   "stories": [
+    {
+     "id": "0b84457f7deb",
+     "topic": "History",
+     "emoji": "⚓",
+     "headline": "Medieval armor found on 500-year-old Swedish shipwreck",
+     "body": "Archaeologists found chain mail armor on a shipwreck off Sweden. The wreck is Gribshunden, a Danish flagship that sank in 1495. They discovered the armor next to a rare munitions chest. The ship carried German mercenaries called Landsknechts during its voyage. Historical records suggest these soldiers likely owned the found armor. This find points to a dedicated military storage zone on the ship. It shows how much equipment remains hidden on the seafloor.",
+     "aha": "You'd think royal ships carried only nobles, but this flagship was packed with hired soldiers and their gear.",
+     "source": "Smithsonian",
+     "url": "https://www.smithsonianmag.com/smart-news/while-exploring-a-500-year-old-shipwreck-off-the-coast-of-sweden-underwater-archaeologists-discovered-medieval-chain-mail-that-may-have-belonged-to-german-mercenaries-180989944/",
+     "published": "2026-11-25T20:44:21.000Z",
+     "readSec": 29
+    },
+    {
+     "id": "be722ca0d5d6",
+     "topic": "Money",
+     "emoji": "💸",
+     "headline": "Energy bills set to jump twenty-six percent in January",
+     "body": "Energy bills will rise sharply for many households in January. Gas prices surged recently due to conflicts involving Iran. This price increase affects millions of people's monthly costs. The spike makes heating and electricity significantly more expensive.",
+     "aha": "Global wars can directly dictate how much you pay for a hot cup of tea at home.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/videos/cwjd7y4jk581o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T16:05:32.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "45bf85215b6d",
+     "topic": "Mind",
+     "emoji": "🧠",
+     "headline": "Men ignore conversations more than women while multitasking",
+     "body": "Researchers tested how men and women handle multiple tasks at once. Participants performed five different activities in a simulated daily routine. Men and women performed similarly well on four of the tasks. However, men ignored conversational questions more than twice as often. When men did answer, their responses were just as fast. Observers watching videos noticed this difference in behavior clearly. This suggests men prioritize tasks over social interaction in busy moments.",
+     "aha": "The difference isn't about skill level, but men silently dropping the social thread to focus on work.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261125045306.htm",
+     "published": "2026-11-26T11:21:47.000Z",
+     "readSec": 29
+    },
+    {
+     "id": "33bbc8519c05",
+     "topic": "Wow",
+     "emoji": "🕳️",
+     "headline": "Hidden caves under Australia could reveal alien world secrets",
+     "body": "Vast limestone plains hide complex cave networks deep underground. Water carved these tunnels over millions of years in Australia. Researchers found shallow trenches on the surface using digital models. These trenches were not created by rivers or flowing water. The study offers a new way to find hidden caves. This method could help scientists study similar features on other planets.",
+     "aha": "Studying dry Australian plains might actually help us understand how caves form on Mars.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261124055901.htm",
+     "published": "2026-11-26T11:06:15.000Z",
+     "readSec": 25
+    },
+    {
+     "id": "bb90cdb4ff7f",
+     "topic": "Geopolitics",
+     "emoji": "🥩",
+     "headline": "Brazil rejects France's claim its meat is doped",
+     "body": "French President Macron called Brazilian meat doped during a meeting. France banned Brazilian meat imports due to antimicrobial use concerns. Brazil's government said this claim spreads misinformation. Brazil argues its food safety systems meet strict scientific standards. The EU and Mercosur are currently in a trade dispute. Brazil exported over one billion dollars of meat to the EU. Brazil urges France to base decisions on evidence, not politics.",
+     "aha": "A label like doped is not just an insult; it is a weapon in a trade war.",
+     "source": "BBC World",
+     "url": "https://www.bbc.co.uk/news/articles/c6rrg28npvzeo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T15:54:15.000Z",
+     "readSec": 28
+    }
+   ],
+   "rabbit": {
+    "id": "908372ca1eca",
+    "topic": "Business",
+    "emoji": "🎭",
+    "title": "How narcissistic employees climb the corporate ladder",
+    "body": "Narcissistic employees actively try to bond with their bosses. They ask for favors and gossip about coworkers to gain status. They believe their managers prefer them over their peers. This manipulation helps them secure promotions and resources.",
+    "dig": [
+     {
+      "q": "How do bosses spot workplace narcissism?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20do%20bosses%20spot%20workplace%20narcissism%3F"
+     },
+     {
+      "q": "Does gossiping actually help promotions?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Does%20gossiping%20actually%20help%20promotions%3F"
+     },
+     {
+      "q": "Can companies train managers to resist flattery?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20companies%20train%20managers%20to%20resist%20flattery%3F"
+     }
+    ],
+    "source": "PsyPost",
+    "url": "https://www.psypost.org/how-narcissistic-employees-manipulate-their-way-to-the-top/"
+   }
+  },
+  {
    "at": "2026-11-27T12:42:43.232Z",
    "stories": [
     {
@@ -394,5 +482,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T12:42:43.232Z"
+ "updated": "2026-11-27T16:23:02.074Z"
 }
