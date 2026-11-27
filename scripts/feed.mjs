@@ -11,7 +11,9 @@ const FEED_FILE = "feed/feed.json";
 const SEEN_FILE = "feed/seen.json";
 const KEEP_HOURS = 48;          // keep 2 days of runs (≈ 8 runs × 5 = 40 stories)
 const PICK = 5;                 // stories per run
-const PER_SOURCE = 4;           // newest N candidates from each source
+const PER_SOURCE = 2;           // newest N candidates from each source
+const MAX_CANDIDATES = 40;      // keeps one request under Groq free limit (8,000 tokens/min)
+const SUMMARY_CHARS = 420;      // per candidate
 const MAX_AGE_DAYS = 7;         // ignore older items (some sources publish weekly)
 const MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]; // tried in order
 const TOPICS = ["AI", "Science", "Money", "Mind", "History", "Business", "Geopolitics", "Communication", "Wow"];
@@ -131,7 +133,7 @@ Reply with JSON only:
 
 const GROQ_URL = process.env.GROQ_URL || "https://api.groq.com/openai/v1/chat/completions"; // override only for tests
 async function askGroq(model, candidates, system) {
-  const user = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, 700)}`).join("\n\n");
+  const user = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, SUMMARY_CHARS)}`).join("\n\n");
   const body = { model, temperature: 0.5, max_tokens: 4000, response_format: { type: "json_object" },
     messages: [{ role: "system", content: system }, { role: "user", content: user }] };
   let res = await fetch(GROQ_URL, {
@@ -144,21 +146,24 @@ async function askGroq(model, candidates, system) {
   if (!res.ok) throw new Error(`HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
   const json = await res.json();
   const out = json.choices?.[0]?.message?.content || "";
+  log(`  reply: ${out.length} chars, tokens used: ${json.usage?.total_tokens ?? "?"}`);
   const m = out.match(/\{[\s\S]*\}/);
   if (!m) throw new Error("no JSON in reply");
   return JSON.parse(m[0]);
 }
 
+const toIdx = (id) => parseInt(String(id ?? "").replace(/[^0-9]/g, ""), 10); // accepts 3, "3", "#3"
 const words = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
 export function validate(stories, candidates) {
   const used = new Set();
   const ok = [];
   for (const s of stories) {
-    const c = candidates[Number(s.id)];
-    if (!c || used.has(s.id)) continue;
-    if (!s.headline || !s.body || !s.aha) continue;
-    if (words(s.body) < 55 || words(s.body) > 130) continue; // keeps the 30–40 s read time
-    used.add(s.id);
+    const idx = toIdx(s.id), c = candidates[idx];
+    const why = !c ? `unknown id ${JSON.stringify(s.id)}` : used.has(idx) ? "duplicate"
+      : !s.headline || !s.body || !s.aha ? "missing headline/body/aha"
+      : words(s.body) < 45 || words(s.body) > 140 ? `body has ${words(s.body)} words` : ""; // keeps the 30–40 s read time
+    if (why) { log(`    rejected: ${why} — ${String(s.headline || "").slice(0, 50)}`); continue; }
+    used.add(idx);
     ok.push({
       id: sha(c.url),
       topic: TOPICS.includes(s.topic) ? s.topic : "Wow",
@@ -175,7 +180,7 @@ export function validate(stories, candidates) {
 
 const wikiSearch = (q) => "https://en.wikipedia.org/w/index.php?search=" + encodeURIComponent(q);
 export function validateRabbit(r, candidates) {
-  const c = r && candidates[Number(r.id)];
+  const c = r && candidates[toIdx(r.id)];
   if (!c || !r.title || !r.body || !Array.isArray(r.dig)) return null;
   const dig = r.dig.map((q) => String(q || "").trim()).filter(Boolean).slice(0, 3);
   if (dig.length < 2 || words(r.body) < 25 || words(r.body) > 110) return null;
@@ -205,7 +210,8 @@ export async function main() {
     (bySource[it.source] ||= []).push(it);
   }
   const candidates = Object.values(bySource).flatMap((list) =>
-    list.sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, PER_SOURCE));
+    list.sort((a, b) => Date.parse(b.published || 0) - Date.parse(a.published || 0)).slice(0, PER_SOURCE))
+    .sort(() => Math.random() - 0.5).slice(0, MAX_CANDIDATES); // shuffle so no source always wins
   log(`Candidates: ${candidates.length} from ${Object.keys(bySource).length} sources`);
   if (DRY) { candidates.forEach((c, i) => log(`#${i} [${c.source}] ${c.title}`)); return; }
   if (candidates.length < PICK) { log("Not enough new stories — keeping the old feed."); return; }
@@ -224,6 +230,7 @@ export async function main() {
     try {
       log("Asking", model);
       const out = await askGroq(model, candidates, system);
+      if (!Array.isArray(out.stories)) log("    reply keys:", Object.keys(out).join(", "));
       stories = validate(out.stories || [], candidates);
       rabbit = validateRabbit(out.rabbit, candidates);
       log(`  got ${stories.length} good stories, rabbit hole: ${rabbit ? "yes" : "no"}`);
