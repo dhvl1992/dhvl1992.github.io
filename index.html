@@ -19,6 +19,30 @@
   .name{margin-top:var(--s2)}
   .desc{font-size:var(--fs-sm); color:var(--muted); margin-top:2px}
   #install{display:none; width:100%; margin-top:var(--s3)}
+
+  /* ---------- Curiosity Feed ---------- */
+  .feed-head{display:flex; align-items:baseline; justify-content:space-between; margin:var(--s5) 0 var(--s1)}
+  .feed-head h2{font-size:var(--fs-lg); font-weight:500; margin:0; letter-spacing:-.01em}
+  .run-label{font-size:var(--fs-sm); color:var(--muted); margin:var(--s4) 0 var(--s2) var(--s1)}
+  .story{background:var(--surface); border-radius:var(--r-card); padding:var(--s3); margin-bottom:var(--s2); box-shadow:var(--shadow)}
+  .story-top{display:flex; align-items:center; gap:var(--s1); font-size:var(--fs-sm); color:var(--muted)}
+  .topic{display:inline-flex; align-items:center; gap:6px; background:var(--soft); color:var(--ink); border-radius:var(--r-pill); padding:4px 12px}
+  .topic .em{font-size:16px; line-height:1}
+  .new{background:var(--accent); color:var(--on-accent); border-radius:var(--r-pill); padding:2px 10px; font-size:12px}
+  .read{margin-left:auto}
+  .story h3{font-size:20px; font-weight:500; line-height:1.3; margin:var(--s2) 0 var(--s1); letter-spacing:-.01em}
+  .story p{margin:0 0 10px} .story p:last-of-type{margin-bottom:0}
+  .aha{margin-top:var(--s2); background:var(--soft); border-radius:var(--r-ctl); padding:var(--s2)}
+  .aha b{display:block; font-weight:500; font-size:var(--fs-sm); margin-bottom:4px}
+  .src{display:inline-flex; align-items:center; gap:4px; margin-top:var(--s2); font-size:var(--fs-sm); color:var(--muted); text-decoration:none}
+  .src:hover{color:var(--ink)}
+  .rabbit{background:var(--soft); box-shadow:none}
+  .rabbit .topic{background:var(--surface)}
+  .dig{display:flex; flex-direction:column; gap:var(--s1); margin-top:var(--s2)}
+  .dig a{display:flex; justify-content:space-between; gap:var(--s1); background:var(--surface); border-radius:var(--r-ctl); padding:12px var(--s2);
+         text-decoration:none; font-size:15px}
+  .dig a span{color:var(--muted)}
+  .skel{height:220px; border-radius:var(--r-card); background:var(--surface); box-shadow:var(--shadow); margin-bottom:var(--s2); opacity:.6}
 </style>
 </head>
 <body>
@@ -27,6 +51,11 @@
   <p class="sub">Tap an app to open it.</p>
   <div class="grid" id="grid"></div>
   <button class="btn btn-primary" id="install">Install as app</button>
+
+  <!-- Curiosity Feed: built 4× a day by .github/workflows/feed.yml into /feed/feed.json -->
+  <div class="feed-head"><h2>Curiosity Feed</h2><span class="sub" id="feedWhen" style="margin:0"></span></div>
+  <p class="sub">Five fresh stories, four times a day. Tap a source to read the full article.</p>
+  <div id="feed"><div class="skel"></div><div class="skel"></div></div>
 </div>
 
 <script>
@@ -63,6 +92,65 @@ document.getElementById("grid").innerHTML = APPS.map(a => `
     <div class="name">${a.name}</div>
     <div class="desc">${a.desc}</div>
   </a>`).join("");
+
+// ---- Curiosity Feed ----
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const safeUrl = u => /^https:\/\//.test(u) ? u : "#"; // only real https links
+const time = d => d.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" });
+function runLabel(iso) {
+  const d = new Date(iso), today = new Date(), y = new Date(); y.setDate(today.getDate() - 1);
+  const day = d.toDateString() === today.toDateString() ? "Today" : d.toDateString() === y.toDateString() ? "Yesterday"
+    : d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "short" });
+  return `${day} · ${time(d)}`;
+}
+// Split a story into short paragraphs (2–3 sentences each) so it reads easily on a phone
+function paras(text) {
+  const sent = String(text || "").match(/[^.!?]+[.!?]+["”’)]*\s*|[^.!?]+$/g) || [String(text || "")];
+  const n = sent.length <= 4 ? 2 : 3, out = [];
+  for (let i = 0; i < sent.length; i += n) out.push(sent.slice(i, i + n).join("").trim());
+  return out.map(p => `<p>${esc(p)}</p>`).join("");
+}
+const storyHtml = (s, isNew) => `
+  <article class="story">
+    <div class="story-top"><span class="topic"><span class="em">${esc(s.emoji)}</span>${esc(s.topic)}</span>
+      ${isNew ? '<span class="new">New</span>' : ""}<span class="read">~${esc(s.readSec)} sec read</span></div>
+    <h3>${esc(s.headline)}</h3>
+    ${paras(s.body)}
+    <div class="aha"><b>💡 Aha!</b>${esc(s.aha)}</div>
+    <a class="src" href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">Read at ${esc(s.source)} ›</a>
+  </article>`;
+const rabbitHtml = r => `
+  <article class="story rabbit">
+    <div class="story-top"><span class="topic"><span class="em">🕳️</span>Rabbit hole · ${esc(r.topic)}</span></div>
+    <h3>${esc(r.title)}</h3>
+    <p>${esc(r.body)}</p>
+    <div class="dig">${(r.dig || []).map(d => `<a href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener">${esc(d.q)}<span>›</span></a>`).join("")}</div>
+    <a class="src" href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener">Starts from ${esc(r.source)} ›</a>
+  </article>`;
+
+async function loadFeed() {
+  const box = document.getElementById("feed");
+  let lastVisit = 0;
+  try { lastVisit = Number(localStorage.getItem("feedLastVisit")) || 0; } catch {}
+  try {
+    const res = await fetch("/feed/feed.json", { cache: "no-cache" }); // always check for the newest feed
+    if (!res.ok) throw new Error(res.status);
+    const feed = await res.json();
+    const runs = (feed.runs || []).filter(r => r.stories?.length);
+    if (!runs.length) throw new Error("empty");
+    document.getElementById("feedWhen").textContent = "Updated " + time(new Date(feed.updated));
+    box.innerHTML = runs.map(r => {
+      const isNew = lastVisit && Date.parse(r.at) > lastVisit;
+      return `<div class="run-label">${esc(runLabel(r.at))}</div>`
+        + r.stories.map(s => storyHtml(s, isNew)).join("")
+        + (r.rabbit ? rabbitHtml(r.rabbit) : "");
+    }).join("");
+    try { localStorage.setItem("feedLastVisit", String(Date.now())); } catch {}
+  } catch (e) {
+    box.innerHTML = `<p class="note">Couldn't load the feed right now. Try again in a minute.</p>`;
+  }
+}
+loadFeed();
 
 // Service worker: needed so Chrome offers "Install"
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js");
