@@ -23,12 +23,17 @@
       pdf:   `<rect x="12" y="11" width="24" height="31" rx="4" fill="${K}"/>
               <rect x="26" y="26" width="27" height="27" rx="5" fill="${A}" stroke="${S}" stroke-width="3"/>
               <path d="M31 48 L38 39 L42 44 L45 41 L49 48 Z" fill="${K}"/>`,
+      // play → lines of text
+      reel:  `<path d="M13 20.5 Q13 17 16 18.7 L28 25.7 Q31 27.5 28 29.3 L16 36.3 Q13 38 13 34.5 Z" fill="${K}"/>
+              <rect x="34" y="19" width="17" height="5" rx="2.5" fill="${A}"/><rect x="34" y="27" width="17" height="5" rx="2.5" fill="${K}"/>
+              <rect x="34" y="35" width="11" height="5" rx="2.5" fill="${K}"/><rect x="13" y="43" width="38" height="5" rx="2.5" fill="${K}"/>`,
     },
     apps: [
       { name: "MyBrain",        desc: "To-do + notes",        icon: "brain", url: "/mybrain/" },
       { name: "SIP Calculator", desc: "Monthly ETF splitter", icon: "sip",   url: "/sipcalc/" },
       { name: "Quiet Reader",   desc: "Markdown book reader", icon: "book",  url: "/reader/" },
       { name: "PDF to JPG",     desc: "Pages to images",      icon: "pdf",   url: "/pdf2jpg/" },
+      { name: "ReelScribe",     desc: "Reel / voice → text",  icon: "reel",  url: "/reelscribe/" },
     ],
   };
   // Which app is this page? (longest matching address wins)
