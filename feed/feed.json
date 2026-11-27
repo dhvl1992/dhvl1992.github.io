@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T17:02:10.553Z",
+   "stories": [
+    {
+     "id": "c77508be8bf2",
+     "topic": "Economics",
+     "emoji": "📈",
+     "headline": "AI boom lifts growth and fuels inflation",
+     "body": "The U.S. economy grew quickly during summer and early fall. Analysts link this rapid growth to the artificial intelligence boom. AI expansion also pushes consumer prices higher, raising inflation. Higher inflation unsettles the stock market and investors. The rise in prices means everyday goods become costlier. Inflation can reduce purchasing power for families. Policymakers watch AI’s impact on both growth and prices.",
+     "aha": "The AI surge is a double‑edged sword: it spikes growth but also lifts the cost of living.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/25/nx-s1-6053958/inflation-is-still-hot-fueled-in-part-by-the-ai-boom",
+     "published": "2026-11-25T22:04:36.000Z",
+     "readSec": 26
+    },
+    {
+     "id": "540b51f49497",
+     "topic": "Business",
+     "emoji": "💶",
+     "headline": "UK agrees to pay participation fee for EU deals",
+     "body": "The United Kingdom will pay a participation fee to the EU for two agreements. Legal documents show the fee covers running costs of EU agencies. Payments are calculated as a share of the UK’s economy size. An extra 4% surcharge adds to the main contribution figure. The fee mirrors how EU members split their budget contributions. Britain expects the deals to boost the economy by billions yearly. Opponents may criticize the additional cost despite projected gains.",
+     "aha": "Even after Brexit, the UK still funds EU systems to keep trade flowing smoothly.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/ck2057x387ego?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-26T23:17:12.000Z",
+     "readSec": 30
+    },
+    {
+     "id": "a416b5c8c584",
+     "topic": "Ethics",
+     "emoji": "⚖️",
+     "headline": "Canada's top court largely upholds Quebec religious‑symbol ban",
+     "body": "The Supreme Court mostly upheld Quebec’s law banning religious symbols for public workers. The law, Bill 21, was passed using the constitution’s notwithstanding clause. Challenges claimed the ban violated fundamental rights like freedom of religion. The court said the law infringes democratic rights for elected officials. Justices warned the clause cannot override Canada’s democratic character. The decision affects teachers, police and other public servants. The ruling will shape debates on religious freedom across Canada.",
+     "aha": "The court kept most of the ban, yet it flagged limits on using the loophole that overrides rights.",
+     "source": "BBC World",
+     "url": "https://www.bbc.co.uk/news/articles/cq3dgpy9lem3o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T16:53:46.000Z",
+     "readSec": 30
+    },
+    {
+     "id": "34e52cea82e0",
+     "topic": "Science",
+     "emoji": "🦎",
+     "headline": "Ancient fossil thought reptile turns out to be fish‑like creature",
+     "body": "A 345‑million‑year‑old fossil from Scotland was long called an early reptile. Scientists named it Westlothiana lizziae and used its surface features for classification. New X‑ray imaging revealed a primitive skull and internal gills. The fossil also has a fish‑like mouth with thousands of tiny teeth. These traits contradict its previous placement among early amniotes. Amniotes include reptiles, birds and mammals that live on land. The find reshapes understanding of early vertebrate evolution.",
+     "aha": "What seemed like a land‑dwelling ancestor actually retained fish‑like breathing structures.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261125045307.htm",
+     "published": "2026-11-26T10:46:17.000Z",
+     "readSec": 28
+    },
+    {
+     "id": "e9630063abc0",
+     "topic": "Mind",
+     "emoji": "📺",
+     "headline": "Love Island pressure predicts dieting and cosmetic desires",
+     "body": "Young viewers feeling appearance pressure from Love Island report more dieting. Mid‑season pressure also links to increased muscle‑building efforts. Those viewers show higher interest in cosmetic procedures later on. Early‑week pressure did not show the same behavior connection. The study suggests a two‑way cycle between desire and pressure. Participants on the show often display slim, toned, enhanced bodies. Researchers debate how media ideals affect body image overall.",
+     "aha": "The show’s influence grows over time, turning early admiration into later body‑changing actions.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/testing-the-love-island-effect-midseason-body-pressure-predicts-dieting-exercise-and-cosmetic-desires/",
+     "published": "2026-11-27T15:00:14.000Z",
+     "readSec": 26
+    }
+   ],
+   "rabbit": {
+    "id": "a4b81e4d8266",
+    "topic": "Mind",
+    "emoji": "🧠",
+    "title": "Why metabolism matters for models of the mind",
+    "body": "Philosophers and scientists create many mind models, like computers or language codes. Most models ignore metabolism, the brain’s energy‑use and waste processes. Metabolism powers neurons and keeps the brain’s internal balance. Without metabolic limits, mind theories risk becoming unrealistic.",
+    "dig": [
+     {
+      "q": "How does brain energy use affect thinking?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20brain%20energy%20use%20affect%20thinking%3F"
+     },
+     {
+      "q": "What are examples of metabolic constraints on cognition?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20are%20examples%20of%20metabolic%20constraints%20on%20cognition%3F"
+     },
+     {
+      "q": "Can metabolic models improve AI design?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20metabolic%20models%20improve%20AI%20design%3F"
+     }
+    ],
+    "source": "Aeon",
+    "url": "https://aeon.co/essays/all-our-models-of-how-the-mind-functions-are-missing-something"
+   }
+  },
+  {
    "at": "2026-11-27T16:56:21.942Z",
    "stories": [
     {
@@ -570,5 +658,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T16:56:21.942Z"
+ "updated": "2026-11-27T17:02:10.553Z"
 }
