@@ -99,41 +99,70 @@ async function fetchSource(src) {
   } finally { clearTimeout(t); }
 }
 
-// ---------- AI ----------
-const SYSTEM_BASE = `You write a "Curiosity Feed" for a busy teacher in India who loves learning.
-From the numbered candidate stories, choose exactly ${PICK} STORIES and 1 RABBIT HOLE.
+// ---------- article text (for pass 2) ----------
+const ARTICLE_CHARS = 2400;
+export function articleText(html) {
+  const main = (html.match(/<article\b[\s\S]*?<\/article>/i) || [html])[0];
+  const paras = [...main.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((m) => text(m[1]))
+    .filter((p) => p.length > 60 && !/cookie|subscribe|newsletter|sign up|all rights reserved|©/i.test(p));
+  return paras.join("\n").slice(0, ARTICLE_CHARS);
+}
+async function fetchArticle(c) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 15000);
+  try {
+    const res = await fetch(c.url, { signal: ctrl.signal, headers: { "User-Agent": "Mozilla/5.0 (CuriosityFeed; +https://dhvl1992.github.io)" } });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const body = articleText(await res.text());
+    if (body.length < 500) throw new Error(`only ${body.length} chars`);
+    log(`  ✓ article ${c.source}: ${body.length} chars`);
+    return body;
+  } catch (e) {
+    log(`  ✗ article ${c.source}: ${e.message} — using RSS summary`);
+    return c.summary.slice(0, ARTICLE_CHARS);
+  } finally { clearTimeout(t); }
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-CHOOSE stories that are:
-- surprising, useful or fun (a real "Aha!"), not routine news
-- a MIX of topics: ${TOPICS.join(", ")}. Use ${PICK} different topics. Prefer the "topics needed" listed below.
-- at least one Money or Business story if any candidate fits
-- from at least 3 different sources
+// ---------- AI ----------
+// Pass 1 — choose. Small, cheap: only ids and topics come back.
+const PICK_PROMPT = `You pick stories for a "Curiosity Feed" for a busy teacher in India who loves learning.
+From the numbered candidates, choose exactly ${PICK} STORIES and 1 RABBIT HOLE.
+CHOOSE stories that are surprising, useful or fun (a real "Aha!"), not routine news.
+- Use ${PICK} different topics from: ${TOPICS.join(", ")}. Prefer the "topics needed" listed below.
+- At least one Money or Business story if any candidate fits. At least 3 different sources.
 Topic meanings: Mind = psychology, habits, brain. Communication = how to talk, listen, persuade, write or handle people better.
 Geopolitics = why countries act as they do: trade, borders, resources, alliances, power. Wow = surprising facts.
-SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, very technical stories, and stories without enough facts in the text.
+SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, very technical stories.
+RABBIT HOLE: one more candidate (not one of the stories) that opens a deeper question worth exploring.
+Reply with JSON only: {"stories":[{"id":<number>,"topic":""}],"rabbit":{"id":<number>,"topic":""}}`;
 
-WRITE each story:
+// Pass 2 — write from the real article text.
+const WRITE_PROMPT = `You write cards for a "Curiosity Feed" for a busy teacher in India. You get the text of each chosen article.
+
+For each STORY write:
 - "headline": max 10 words, plain and curious. No clickbait, no question marks.
-- "body": a LIST of exactly 5 short sentences that tell the story in order. Each sentence 10–15 words. Simple English a 12-year-old understands. Explain hard words in a few words.
-- "aha": ONE sentence, max 25 words. It must say something the headline does NOT: a flipped expectation ("You'd think X, but Y"), a hidden link, or what it means for daily life. Never just repeat the story.
+- "body": a LIST of 5 or 6 short sentences that tell the story in order. Each sentence 10–15 words. Simple English a 12-year-old understands. Explain hard words in a few words.
+  If the article text is short, write only 3 or 4 sentences. Never pad with general statements.
+- "aha": ONE sentence, max 25 words. It must say something the headline does NOT: a flipped expectation ("You'd think X, but Y"), a hidden link, or what it means for daily life.
    BAD aha: "Shipwrecks have long been a battlefield where treasure drives competition." (only repeats)
-   GOOD aha: "Old shipwrecks were not just lost treasure. They started the legal fights that still decide who owns the sea floor." (new angle)
-- "topic": one of ${TOPICS.join(", ")}.  "emoji": one fitting emoji.
+   GOOD aha: "Old shipwrecks were not just lost treasure. They started the legal fights that still decide who owns the sea floor."
+- "emoji": one fitting emoji. Keep the "id" and "topic" you were given.
 
-RABBIT HOLE (1 item): take ONE candidate (it may be one of your stories, or another) that opens a deeper question.
+For the RABBIT HOLE write:
 - "title": max 10 words, a curious question or idea.
-- "body": 3 or 4 short sentences (max 15 words each) explaining what the candidate says and why it is worth digging into.
+- "body": a LIST of 3 or 4 short sentences (max 15 words each): what the article says and why it is worth digging into.
 - "dig": exactly 3 short follow-up questions (max 10 words each) a curious person would search next.
 
-STRICT FACT RULE: use ONLY facts written in that candidate's title and summary. Do not add numbers, times, speeds ("in minutes", "twice as fast"), names, dates, causes or background facts that are not in the text. If the text is thin, choose another candidate. Do not copy sentences; write in your own words.
+STRICT FACT RULE: every fact must come from that article's text. Do not add numbers, times, speeds, names, dates, causes,
+"experts say" lines, or background facts that are not in the text. Write in your own words; never copy sentences.
 
 Reply with JSON only:
-{"stories":[{"id":<candidate number>,"topic":"","emoji":"","headline":"","body":["","","","",""],"aha":""}],
- "rabbit":{"id":<candidate number>,"topic":"","emoji":"","title":"","body":"","dig":["","",""]}}`;
+{"stories":[{"id":<number>,"topic":"","emoji":"","headline":"","body":["",""],"aha":""}],
+ "rabbit":{"id":<number>,"topic":"","emoji":"","title":"","body":["",""],"dig":["","",""]}}`;
 
 const GROQ_URL = process.env.GROQ_URL || "https://api.groq.com/openai/v1/chat/completions"; // override only for tests
-async function askGroq(model, candidates, system) {
-  const user = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, SUMMARY_CHARS)}`).join("\n\n");
+async function askGroq(model, system, user) {
   const body = { model, temperature: 0.5, max_tokens: 3500, response_format: { type: "json_object" },
     // "thinking" models: think briefly, so the answer still fits in the budget
     ...(/gpt-oss/.test(model) ? { reasoning_effort: "low" } : /qwen/.test(model) ? { reasoning_effort: "none" } : {}),
@@ -165,7 +194,7 @@ export function validate(stories, candidates) {
     const idx = toIdx(s.id), c = candidates[idx];
     const why = !c ? `unknown id ${JSON.stringify(s.id)}` : used.has(idx) ? "duplicate"
       : !s.headline || !s.body || !s.aha ? "missing headline/body/aha"
-      : words(s.body) < 40 || words(s.body) > 140 ? `body has ${words(s.body)} words` : ""; // keeps the 30–40 s read time
+      : words(s.body) < 30 || words(s.body) > 140 ? `body has ${words(s.body)} words` : ""; // keeps the 30–40 s read time
     if (why) { log(`    rejected: ${why} — ${String(s.headline || "").slice(0, 50)}`); continue; }
     used.add(idx);
     ok.push({
@@ -228,19 +257,36 @@ export async function main() {
   (old.runs || []).forEach((r) => (r.stories || []).forEach((st) => { if (st.topic in count) count[st.topic]++; }));
   const needed = TOPICS.slice().sort((a, b) => count[a] - count[b]).slice(0, 5);
   log("Topics needed most:", needed.join(", "));
-  const system = SYSTEM_BASE + `\n\nTopics needed most right now: ${needed.join(", ")}.`;
+  const listText = candidates.map((c, i) => `#${i} [${c.source}] ${c.title}\n${c.summary.slice(0, SUMMARY_CHARS)}`).join("\n\n");
+  const pickSystem = PICK_PROMPT + `\n\nTopics needed most right now: ${needed.join(", ")}.`;
 
-  let stories = [], rabbit = null;
+  // Try models in order. For each: pass 1 pick → read articles → pass 2 write.
+  let stories = [], rabbit = null, articles = {};
   for (const model of MODELS) {
     try {
-      log("Asking", model);
-      const out = await askGroq(model, candidates, system);
+      log("Pass 1 (pick) with", model);
+      const pick = await askGroq(model, pickSystem, listText);
+      const chosen = (pick.stories || []).map((x) => ({ idx: toIdx(x.id), topic: x.topic })).filter((x) => candidates[x.idx]).slice(0, PICK + 1);
+      const rIdx = toIdx(pick.rabbit?.id);
+      log(`  picked ${chosen.length} stories${candidates[rIdx] ? " + rabbit hole" : ""}`);
+      if (chosen.length < 3) continue;
+
+      log("Reading articles…");
+      const want = [...chosen.map((x) => x.idx), ...(candidates[rIdx] ? [rIdx] : [])];
+      for (const i of want) if (!articles[i]) articles[i] = await fetchArticle(candidates[i]);
+
+      const writeUser = chosen.map((x) => `STORY id ${x.idx} · topic ${x.topic} · [${candidates[x.idx].source}] ${candidates[x.idx].title}\n${articles[x.idx]}`).join("\n\n---\n\n")
+        + (candidates[rIdx] ? `\n\n---\n\nRABBIT HOLE id ${rIdx} · topic ${pick.rabbit.topic} · [${candidates[rIdx].source}] ${candidates[rIdx].title}\n${articles[rIdx]}` : "");
+      log("  waiting 65 s (Groq free limit: tokens per minute)…");
+      await sleep(Number(process.env.FEED_WAIT_MS ?? 65000));
+      log("Pass 2 (write) with", model);
+      const out = await askGroq(model, WRITE_PROMPT, writeUser);
       if (!Array.isArray(out.stories)) log("    reply keys:", Object.keys(out).join(", "));
       stories = validate(out.stories || [], candidates);
       rabbit = validateRabbit(out.rabbit, candidates);
       log(`  got ${stories.length} good stories, rabbit hole: ${rabbit ? "yes" : "no"}`);
       if (stories.length >= 3) break; // 3+ is a usable run; else try the next model
-    } catch (e) { log("  failed:", e.message); }
+    } catch (e) { log("  failed:", e.message); await sleep(Number(process.env.FEED_WAIT_MS ?? 30000)); }
   }
   if (stories.length < 3) { log("AI did not give usable stories — keeping the old feed."); process.exitCode = 0; return; }
 
