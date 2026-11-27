@@ -20,6 +20,24 @@
   .desc{font-size:var(--fs-sm); color:var(--muted); margin-top:2px}
   #install{display:none; width:100%; margin-top:var(--s3)}
 
+  /* ---------- Today (MyBrain tasks) ---------- */
+  .today{margin-top:var(--s4)}
+  .today-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:var(--s1)}
+  .today-head h2{font-size:var(--fs-lg); font-weight:500; margin:0; letter-spacing:-.01em}
+  .today-head .sub{margin:0}
+  .today-list{background:var(--surface); border-radius:var(--r-card); box-shadow:var(--shadow); padding:var(--s1); max-height:340px; overflow-y:auto}
+  .trow{display:flex; align-items:center; gap:12px; padding:12px var(--s2); border-radius:var(--r-ctl); text-decoration:none; color:var(--ink)}
+  a.trow:hover{background:var(--soft)}
+  .trow .dot{width:10px; height:10px; border-radius:50%; flex:none; background:var(--soft); box-shadow:inset 0 0 0 2px var(--muted)}
+  .trow .dot.p1{background:var(--ink); box-shadow:none}
+  .trow .t{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .trow .d{font-size:var(--fs-sm); color:var(--muted); flex:none}
+  .trow .d.late{color:var(--warn)}
+  .tgroup{font-size:var(--fs-sm); color:var(--muted); padding:var(--s1) var(--s2) 4px}
+  .tmsg{padding:var(--s2); color:var(--muted); font-size:15px}
+  .tmsg a{color:var(--accent); text-decoration:none}
+  .skel-row{height:48px; background:var(--soft); opacity:.6}
+
   /* ---------- Curiosity Feed ---------- */
   .feed-head{display:flex; align-items:baseline; justify-content:space-between; margin:var(--s5) 0 var(--s1)}
   .feed-head h2{font-size:var(--fs-lg); font-weight:500; margin:0; letter-spacing:-.01em}
@@ -53,6 +71,9 @@
     .wrap{max-width:1180px; height:100dvh; padding-bottom:var(--s3); display:flex; flex-direction:column}
     .layout{flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:var(--s5)}
     .col-feed{display:flex; flex-direction:column; min-height:0}
+    .col-apps{display:flex; flex-direction:column; min-height:0}
+    .today{flex:1; min-height:0; display:flex; flex-direction:column}
+    .today-list{max-height:none; flex:0 1 auto; min-height:0}
     .col-feed .feed-head{margin-top:0}
     .feed-box{flex:1; min-height:0}
     #feed{height:100%}
@@ -93,6 +114,12 @@
   <h1 class="title">My Apps</h1>
   <p class="sub">Tap an app to open it.</p>
   <div class="grid" id="grid"></div>
+
+  <!-- Today: due-today + overdue tasks from MyBrain (uses your MyBrain login on this same site) -->
+  <div class="today">
+    <div class="today-head"><h2>Today</h2><span class="sub" id="todayCount"></span></div>
+    <div id="todayList" class="today-list"><div class="trow skel-row"></div></div>
+  </div>
   <button class="btn btn-primary" id="install">Install as app</button>
  </section>
 
@@ -141,6 +168,43 @@ document.getElementById("grid").innerHTML = APPS.map(a => `
     <div class="name">${a.name}</div>
     <div class="desc">${a.desc}</div>
   </a>`).join("");
+
+// ---- Today: due + overdue tasks from MyBrain ----
+// Same website as MyBrain (dhvl1992.github.io), so the MyBrain login saved in this browser works here too.
+// The publishable key is public by design; MyBrain's database rules only return YOUR rows when logged in.
+const MB_URL = "https://yncbwqhytcxkqrlonkkk.supabase.co";
+const MB_KEY = "sb_publishable_Sf-aeTSLVtF1aR2-KUSWMA_ecVQidxd";
+const localIso = (d = new Date()) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+function loadScript(src) {
+  return new Promise((ok, fail) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s); });
+}
+async function loadToday() {
+  const box = document.getElementById("todayList"), count = document.getElementById("todayCount");
+  try {
+    if (!window.supabase) await loadScript("/mybrain/vendor/supabase.js"); // MyBrain's own copy, no outside CDN
+    const db = supabase.createClient(MB_URL, MB_KEY, { auth: { autoRefreshToken: false } }); // MyBrain keeps the login fresh
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) {
+      box.innerHTML = `<div class="tmsg"><a href="/mybrain/">Log in to MyBrain</a> to see today's tasks here.</div>`;
+      return;
+    }
+    const today = localIso();
+    const { data, error } = await db.from("items").select("id, title, due, priority")
+      .eq("kind", "todo").eq("done", false).lte("due", today).order("due").order("priority");
+    if (error) throw error;
+    const late = data.filter(t => t.due < today), now = data.filter(t => t.due === today);
+    count.textContent = data.length ? `${data.length} to do` : "";
+    if (!data.length) { box.innerHTML = `<div class="tmsg">Nothing due today ✓</div>`; return; }
+    const daysLate = d => Math.round((new Date(today) - new Date(d)) / 86400000);
+    const row = (t, label, cls) => `<a class="trow" href="/mybrain/#todo/${encodeURIComponent(t.id)}">
+        <span class="dot ${t.priority === 1 ? "p1" : ""}"></span><span class="t">${esc(t.title)}</span><span class="d ${cls}">${label}</span></a>`;
+    box.innerHTML =
+      (late.length ? `<div class="tgroup">Overdue</div>` + late.map(t => row(t, daysLate(t.due) === 1 ? "1 day late" : `${daysLate(t.due)} days late`, "late")).join("") : "")
+      + (now.length ? `<div class="tgroup">Today</div>` + now.map(t => row(t, "Today", "")).join("") : "");
+  } catch (e) {
+    box.innerHTML = `<div class="tmsg">Couldn't load tasks right now. <a href="/mybrain/">Open MyBrain ›</a></div>`;
+  }
+}
 
 // ---- Curiosity Feed ----
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -246,6 +310,7 @@ document.addEventListener("keydown", e => {
   document.getElementById(e.key === "ArrowDown" ? "feedDown" : "feedUp").click();
 });
 loadFeed();
+loadToday();
 
 // Service worker: needed so Chrome offers "Install"
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js");
