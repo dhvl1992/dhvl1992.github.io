@@ -1,6 +1,70 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T06:00:02.760Z",
+   "stories": [
+    {
+     "id": "3351794e6a63",
+     "topic": "AI",
+     "emoji": "🤖",
+     "headline": "New bionic hand lets users feel pressure",
+     "body": "Avi Davidson lost his left hand as a teenager. He tried several prosthetic devices over the years. The newest hand connects to nerves in his forearm. It transmits pressure signals so he can feel objects. He can now handle delicate items with his left limb.",
+     "aha": "You’d expect a prosthetic to only move, but this one restores sensation, changing daily tasks.",
+     "source": "MIT Technology Review",
+     "url": "https://www.technologyreview.com/2026/11/26/1149923/the-next-generation-of-bionic-hands-is-here-and-they-can-feel/",
+     "published": "2026-11-26T09:59:00.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "23c78c040b7d",
+     "topic": "Geopolitics",
+     "emoji": "🌍",
+     "headline": "Europe relies more on U.S. despite sovereignty promises",
+     "body": "Europe says it wants economic independence from the United States. In practice, its dependence on U.S. resources has increased. Promises to diversify have not turned into real actions yet. American influence remains strong across European markets. The gap between talk and action widens daily.",
+     "aha": "Talk of sovereignty masks continued reliance, showing political statements can differ from economic reality.",
+     "source": "Foreign Policy",
+     "url": "https://foreignpolicy.com/2026/11/26/eu-europe-economic-security-sovereignty-derisking-decoupling-dependence-united-states-china/",
+     "published": "2026-11-26T12:33:15.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "224ca0e3af2b",
+     "topic": "Business",
+     "emoji": "🍽️",
+     "headline": "Solo dining reshapes restaurant industry trends",
+     "body": "Eating alone is becoming a popular self‑care habit. People spend about two hundred pounds each month on meals. Restaurants adapt menus and spaces for single diners. The trend influences how chefs design portion sizes. Industry analysts note growing revenue from solo customers.",
+     "aha": "Solo meals are not just personal choice; they drive major changes in how restaurants operate.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/cw8dv11dp2yeo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T00:54:45.000Z",
+     "readSec": 20
+    }
+   ],
+   "rabbit": {
+    "id": "4fb681672252",
+    "topic": "Mind",
+    "emoji": "🧠",
+    "title": "Do AI labels really change how we trust information?",
+    "body": "A German study tested if labeling text as AI‑generated affects ratings. Participants read nutrition advice marked as AI‑generated or not. The label had little impact on how they judged the advice. Most readers seemed to overlook the AI label entirely. The result suggests labels may not alter trust as expected.",
+    "dig": [
+     {
+      "q": "Will AI labels affect other types of content?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Will%20AI%20labels%20affect%20other%20types%20of%20content%3F"
+     },
+     {
+      "q": "How can we make AI disclosures more noticeable?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20can%20we%20make%20AI%20disclosures%20more%20noticeable%3F"
+     },
+     {
+      "q": "What ethical rules should guide AI‑generated information?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20ethical%20rules%20should%20guide%20AI%E2%80%91generated%20information%3F"
+     }
+    ],
+    "source": "PsyPost",
+    "url": "https://www.psypost.org/marking-an-informational-text-as-ai-generated-does-not-influence-its-ratings-study-finds/"
+   }
+  },
+  {
    "at": "2026-11-27T05:46:47.864Z",
    "stories": [
     {
@@ -66,5 +130,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T05:46:47.864Z"
+ "updated": "2026-11-27T06:00:02.760Z"
 }
