@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T12:42:43.232Z",
+   "stories": [
+    {
+     "id": "820e6024d34e",
+     "topic": "Business",
+     "emoji": "🛍️",
+     "headline": "Macy's Turns to Luxury to Stay Alive",
+     "body": "Macy's flagship shows 2026 holiday display. The store faces shrinking profits and online competition. It plans to become a luxury destination. It wants to keep old shoppers and attract new ones. It is neither a discount nor an upscale store. It has struggled since the pandemic hit. It hopes luxury will save the brand.",
+     "aha": "You'd think a big department store would stay mid‑tier, but Macy's is trying to leap into high‑end retail.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/27/nx-s1-6026486/macys-tries-to-reinvent-with-luxury",
+     "published": "2026-11-27T10:01:00.000Z",
+     "readSec": 24
+    },
+    {
+     "id": "dcbee2fc29c2",
+     "topic": "Science",
+     "emoji": "🔬",
+     "headline": "PVC Plastic Turns into Engine Oil Ingredient",
+     "body": "Researchers at Virginia Tech made a chemical conversion. They turn PVC into polyalphaolefin, used in lubricants. PVC is hard to recycle because of chlorine and additives. The process uses a solvent, a catalyst, and heat. It produces a thick lubricating oil after three hours. The oil can replace synthetic base oils. This could reduce plastic waste and oil production costs.",
+     "aha": "The trick shows that even stubborn plastic can become a useful part of a machine, turning trash into treasure.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261126033501.htm",
+     "published": "2026-11-27T09:52:24.000Z",
+     "readSec": 26
+    },
+    {
+     "id": "072c1e025aac",
+     "topic": "History",
+     "emoji": "🏺",
+     "headline": "Archaeology Used as National Propaganda",
+     "body": "Archaeologists uncover past to build identity. Some groups use findings to support political goals. Peking Man fossils are cited as proof of Chinese primacy. Scientists say most humans originated in Africa. Chinese officials sometimes misinterpret the evidence. They claim Peking Man was the first human. This fuels nationalistic narratives.",
+     "aha": "It reveals how a single fossil find can be twisted into a story that boosts national pride.",
+     "source": "Big Think",
+     "url": "https://bigthink.com/history-society/how-propagandists-weaponize-archaeology/",
+     "published": "2026-11-26T15:30:00.000Z",
+     "readSec": 21
+    },
+    {
+     "id": "05ed41fcd5fb",
+     "topic": "Money",
+     "emoji": "💰",
+     "headline": "Heating Fear as Gas Prices Rise",
+     "body": "Gas prices surged after the Iran war. Energy bills will climb 26% in January. Many households fear turning on their heating. The increase affects millions of families. The rise reflects global market shocks. It highlights the link between politics and household costs. Consumers must plan for higher expenses.",
+     "aha": "So what: a spike in gas prices means families will have to cut heating to avoid bills.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/videos/c6jd7yj4ve9xo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T08:47:00.000Z",
+     "readSec": 21
+    },
+    {
+     "id": "286b8fcfed26",
+     "topic": "Science",
+     "emoji": "🦄",
+     "headline": "Narwhal Tusk’s Twisting Secret Revealed",
+     "body": "Narwhal tusks are long, corkscrew teeth. Scientists used X‑ray imaging to study them. They found two intertwined helices twist opposite ways. This structure gives the tusk extreme stability. The tusk may help in mating displays. Its growth continues throughout life. The study explains the engineering of a natural marvel.",
+     "aha": "The tusk’s double‑helix design shows nature’s engineering can inspire new materials.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261126063316.htm",
+     "published": "2026-11-27T10:01:39.000Z",
+     "readSec": 20
+    }
+   ],
+   "rabbit": {
+    "id": "62a059c3b959",
+    "topic": "Science",
+    "emoji": "🚀",
+    "title": "What Did DART Leave Behind on Dimorphos?",
+    "body": "DART hit Dimorphos, changing its orbit. Hera spacecraft now views the scar left behind. The impact carved a crater almost as big as the asteroid. The images reveal a chaotic, stadium‑sized mess.",
+    "dig": [
+     {
+      "q": "How big was the crater?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20big%20was%20the%20crater%3F"
+     },
+     {
+      "q": "What did Hera find on the surface?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20did%20Hera%20find%20on%20the%20surface%3F"
+     },
+     {
+      "q": "Why is the impact significant for asteroid defense?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Why%20is%20the%20impact%20significant%20for%20asteroid%20defense%3F"
+     }
+    ],
+    "source": "Ars Technica",
+    "url": "https://arstechnica.com/space/2026/11/europes-hera-mission-returns-to-the-chaotic-scene-of-a-cosmic-smashup/"
+   }
+  },
+  {
    "at": "2026-11-27T06:09:38.916Z",
    "stories": [
     {
@@ -306,5 +394,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T06:09:38.916Z"
+ "updated": "2026-11-27T12:42:43.232Z"
 }
