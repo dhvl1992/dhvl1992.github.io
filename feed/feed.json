@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T06:04:04.015Z",
+   "stories": [
+    {
+     "id": "b1139b396949",
+     "topic": "Science",
+     "emoji": "🦖",
+     "headline": "Uintatheres May Not Have Been Sexually Dimorphic",
+     "body": "Paleontologists long thought male uintatheres were much larger than females. New Kansas study measured many skulls and found less size difference. Researchers compared a broken tooth to many museum specimens. Statistical analysis showed skull measurements formed a single range, not two. The finding challenges the classic view of strong sexual dimorphism.",
+     "aha": "You’d expect obvious male‑female size gaps, but the fossils show a smooth variation instead.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261125045310.htm",
+     "published": "2026-11-27T01:05:56.000Z",
+     "readSec": 22
+    },
+    {
+     "id": "488f394ae9e8",
+     "topic": "Communication",
+     "emoji": "📡",
+     "headline": "Four Simple Network Shapes Guarantee Perfect Resilience",
+     "body": "Scientists proved only four minimal structures stop perfect resilience. If a network lacks these shapes, routing rules can always deliver packets. Perfect resilience means any single link failure still allows communication. The proof was presented at a major computing symposium in 2026. Researchers called the result elegant and rare in network theory.",
+     "aha": "We assume complex designs are needed, yet avoiding just four tiny patterns ensures flawless data flow.",
+     "source": "Quanta Magazine",
+     "url": "https://www.quantamagazine.org/network-researchers-nail-down-theory-of-perfect-resilience-20261120/",
+     "published": "2026-11-20T14:50:41.000Z",
+     "readSec": 23
+    },
+    {
+     "id": "303cd1b2b8d1",
+     "topic": "Mind",
+     "emoji": "💭",
+     "headline": "Remembering an Ex Can Boost Current Relationship Happiness",
+     "body": "Korean study split dating adults into three writing groups. One group recalled a nostalgic memory of an ex partner. Another wrote about a sweet moment with their current partner. Both memory groups reported higher happiness with their current partner afterwards. The neutral writing group showed no change in relationship happiness.",
+     "aha": "Surprisingly, thinking about a former lover lifts mood more than reminiscing about today’s partner.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/reminiscing-about-an-ex-isnt-always-bad-for-your-love-life-a-psychology-experiment-found-it-left-dating-adults-happier-with-their-partner/",
+     "published": "2026-11-26T19:00:15.000Z",
+     "readSec": 22
+    },
+    {
+     "id": "006da6a8204f",
+     "topic": "History",
+     "emoji": "🌾",
+     "headline": "Flax Linen Fueled American Revolutionary Unity",
+     "body": "Washington’s tent was made of linen, a fabric from flax fibers. Colonists spun and wove flax as a protest against British taxes. Women’s spinning bees let them join the revolutionary effort. Flax textiles symbolized self‑sufficiency and resistance during the war. Linen’s durability made it a practical choice for military camps.",
+     "aha": "While cotton dominates textile history, flax’s role stitched together early American patriotism.",
+     "source": "JSTOR Daily",
+     "url": "https://daily.jstor.org/flax-seeds-of-revolution/",
+     "published": "2026-11-25T14:33:00.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "f9fb9773b067",
+     "topic": "Money",
+     "emoji": "🛠️",
+     "headline": "Elevator ‘Wizards’ Scarce, Yet Essential for Urban Life",
+     "body": "Jim Lembesis has repaired Chicago lifts for 47 years. Nationwide shortage of lift and escalator mechanics has worsened. Most elevator failures involve door components wearing out quickly. Mechanics keep spare door parts in their vehicles for quick fixes. The job is risky, but technicians enjoy camaraderie and problem‑solving.",
+     "aha": "Despite high salaries, the trade’s danger and skill demands keep new workers away.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/c52e8k19y94mo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T00:02:19.000Z",
+     "readSec": 21
+    }
+   ],
+   "rabbit": {
+    "id": "be6f259f60bf",
+    "topic": "Mind",
+    "emoji": "🤔",
+    "title": "Why Do Some Physicists Reject Simulation Theory?",
+    "body": "Rovelli claims the search for ultimate reality is a mistake. He connects physics, Buddhism, and Wittgenstein to support his view. The Big Think interview asks what remains after dropping foundations.",
+    "dig": [
+     {
+      "q": "What alternatives replace a foundational reality?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20alternatives%20replace%20a%20foundational%20reality%3F"
+     },
+     {
+      "q": "How does Buddhist philosophy influence modern physics?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20Buddhist%20philosophy%20influence%20modern%20physics%3F"
+     },
+     {
+      "q": "What criticisms exist against simulation theory?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20criticisms%20exist%20against%20simulation%20theory%3F"
+     }
+    ],
+    "source": "Big Think",
+    "url": "https://bigthink.com/series/conversations/rovelli-simulation-theory/"
+   }
+  },
+  {
    "at": "2026-11-27T06:00:02.760Z",
    "stories": [
     {
@@ -130,5 +218,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T06:00:02.760Z"
+ "updated": "2026-11-27T06:04:04.015Z"
 }
