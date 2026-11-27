@@ -63,6 +63,10 @@
   .story.tight .next{display:none}
   .rabbit .next{background:var(--surface)}
   .when{font-size:var(--fs-sm); color:var(--muted)}
+  .feed-nav .refresh{width:auto; height:40px; border:0; border-radius:var(--r-pill); background:var(--soft); color:var(--text); font:inherit; font-size:var(--fs-sm); padding:6px 12px; cursor:pointer; white-space:nowrap}
+  .feed-nav .refresh:disabled{opacity:.5; cursor:default}
+  .refresh-msg{margin:0 0 var(--s1); font-size:var(--fs-sm)}
+  .refresh-msg.hidden{display:none}
   .feed-nav{display:flex; align-items:center; justify-content:flex-end; gap:var(--s1); margin:0 0 var(--s1)}
   .feed-nav .count{font-size:var(--fs-sm); color:var(--muted); margin-right:auto}
   .feed-nav button{width:40px; height:40px; border:0; border-radius:var(--r-pill); background:var(--soft); cursor:pointer; font-size:18px; line-height:1}
@@ -127,8 +131,9 @@
  <section class="col-feed">
   <!-- Curiosity Feed: built 4× a day by .github/workflows/feed.yml into /feed/feed.json -->
   <div class="feed-head"><h2>Curiosity Feed</h2><span class="sub" id="feedWhen" style="margin:0"></span></div>
-  <p class="sub">Five fresh stories, four times a day. Tap a source to read the full article.</p>
-  <div class="feed-nav"><span class="count" id="feedCount"></span>
+  <p class="sub">Five fresh stories at a time. Tap ↻ for more. Tap a source to read the full article.</p>
+  <p class="note refresh-msg hidden" id="refreshMsg"></p>
+  <div class="feed-nav"><span class="count" id="feedCount"></span><button id="feedRefresh" class="refresh" disabled>↻</button>
     <button id="feedUp" aria-label="Previous story">↑</button><button id="feedDown" aria-label="Next story">↓</button></div>
   <div class="feed-box"><div id="feed"><div class="slide"><div class="skel"></div></div></div></div>
  </section>
@@ -242,6 +247,7 @@ async function loadFeed() {
     const runs = (feed.runs || []).filter(r => r.stories?.length);
     if (!runs.length) throw new Error("empty");
     document.getElementById("feedWhen").textContent = "Updated " + time(new Date(feed.updated));
+    feedUpdated = Date.parse(feed.updated) || 0; refreshButton();
     // Flatten to one list of cards, so each card knows the next one
     const cards = [];
     runs.forEach(r => {
@@ -293,6 +299,64 @@ document.addEventListener("keydown", e => {
   e.preventDefault();
   document.getElementById(e.key === "ArrowDown" ? "feedDown" : "feedUp").click();
 });
+// ---------- ↻ Refresh button ----------
+// GitHub's own timer is unreliable, so the button asks GitHub to run the feed job (.github/workflows/feed.yml).
+// Unlocks 4 h after the last update. The job checks the same lock, so double taps cost nothing.
+// Needs a GitHub key (fine-grained token, Actions: read & write, this repo only), saved in this browser only.
+const LOCK_MS = 4 * 3600e3, WAIT_MS = 8 * 60e3, KEY = "key_github_feed", ASKED = "feedRefreshAt";
+const WORKFLOW = "https://api.github.com/repos/dhvl1992/dhvl1992.github.io/actions/workflows/feed.yml/dispatches";
+let feedUpdated = 0, pollTimer = null;
+const ls = { get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+             set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
+function refreshMsg(text) {
+  const el = document.getElementById("refreshMsg");
+  el.textContent = text || ""; el.classList.toggle("hidden", !text);
+}
+function refreshButton() {
+  const btn = document.getElementById("feedRefresh");
+  const asked = Number(ls.get(ASKED)) || 0, now = Date.now();
+  if (asked && asked > feedUpdated && now - asked < WAIT_MS) { // waiting for GitHub
+    btn.disabled = true; btn.textContent = "↻ Getting stories…";
+    refreshMsg("Fresh stories are on the way, about 4 minutes. You can keep reading.");
+    if (!pollTimer) pollTimer = setInterval(checkNew, 20000);
+    return;
+  }
+  if (asked && asked > feedUpdated) { // waited long enough, nothing new arrived
+    ls.set(ASKED, null);
+    refreshMsg("No new stories this time (the news sites had nothing fresh). Try again later.");
+  }
+  clearInterval(pollTimer); pollTimer = null;
+  const openAt = feedUpdated + LOCK_MS;
+  btn.disabled = now < openAt;
+  btn.textContent = btn.disabled ? "↻ " + time(new Date(openAt)) : "↻ Refresh";
+  btn.title = btn.disabled ? "New stories can be fetched from " + time(new Date(openAt)) : "Get 5 fresh stories";
+}
+async function checkNew() {
+  const before = feedUpdated;
+  await loadFeed();
+  if (feedUpdated > before) { ls.set(ASKED, null); refreshMsg(""); }
+  refreshButton();
+}
+document.getElementById("feedRefresh").addEventListener("click", async () => {
+  let key = ls.get(KEY);
+  if (!key) {
+    key = (prompt("Paste your GitHub key (starts with github_pat_). It stays only in this browser.") || "").trim();
+    if (!key) return;
+  }
+  const btn = document.getElementById("feedRefresh");
+  btn.disabled = true; btn.textContent = "↻ Asking GitHub…";
+  try {
+    const res = await fetch(WORKFLOW, { method: "POST",
+      headers: { Authorization: "Bearer " + key, Accept: "application/vnd.github+json" },
+      body: JSON.stringify({ ref: "main" }) });
+    if (res.status === 204) { ls.set(KEY, key); ls.set(ASKED, String(Date.now())); refreshButton(); return; }
+    if (res.status === 401) { ls.set(KEY, null); refreshMsg("GitHub didn't accept the key (wrong, expired or deleted). Tap ↻ to paste a new one."); }
+    else if (res.status === 403 || res.status === 404) { ls.set(KEY, null); refreshMsg("This key isn't allowed to start the feed. Make one with Actions: Read and write on dhvl1992.github.io."); }
+    else refreshMsg("GitHub said no (" + res.status + "). Try again in a few minutes.");
+  } catch { refreshMsg("Couldn't reach GitHub. Check your internet and try again."); }
+  refreshButton();
+});
+setInterval(refreshButton, 60000); // unlocks by itself when the 4 hours are up
 loadFeed();
 loadToday();
 

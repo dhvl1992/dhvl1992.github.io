@@ -9,7 +9,12 @@ on:
     - cron: "30 7 * * *"
     - cron: "0 12 * * *"
     - cron: "30 15 * * *"
-  workflow_dispatch:
+  workflow_dispatch: # also started by the ↻ button on the home page
+    inputs:
+      force:
+        description: "Run even if the feed is less than 4 hours old"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -31,6 +36,8 @@ jobs:
       - name: Build feed
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # lock: button = 3.9 h (4 h minus clock slack), timer = 2 h, force = none
+          MIN_GAP_HOURS: ${{ github.event_name == 'schedule' && '2' || (inputs.force && 'none' || '3.9') }}
         run: node scripts/feed.mjs
 
       - name: Save feed if it changed

@@ -236,6 +236,13 @@ export function validateRabbit(r, candidates) {
 
 // ---------- main ----------
 export async function main() {
+  // Safety lock: skip if the feed was updated recently (stops double taps / two devices wasting a run)
+  const gapH = Number(process.env.MIN_GAP_HOURS || 0);
+  if (gapH > 0) {
+    const prev = await readJson(FEED_FILE, {});
+    const age = (Date.now() - Date.parse(prev.updated || 0)) / 3600e3;
+    if (age < gapH) { log(`Feed is only ${age.toFixed(1)} h old (lock: ${gapH} h) — nothing to do.`); return; }
+  }
   const seenList = await readJson(SEEN_FILE, []);
   const seen = new Set(seenList);
   log("Reading sources…");
