@@ -1,0 +1,70 @@
+{
+ "runs": [
+  {
+   "at": "2026-11-27T05:46:47.864Z",
+   "stories": [
+    {
+     "id": "05b1b424b020",
+     "topic": "Science",
+     "emoji": "🌌",
+     "headline": "New Experiments Chase Elusive Ultralight Dark Matter",
+     "body": "Scientists are creating fresh experiments to look for ultralight dark matter, a type of invisible material thought to make up most of the universe’s mass. These experiments use clever techniques that can detect tiny vibrations or energy shifts caused by the particles. By expanding the search methods, researchers hope to catch signals that older tools missed. Finding ultralight dark matter would help explain why galaxies spin faster than visible matter alone can account for.",
+     "aha": "Detecting ultralight dark matter could finally reveal the hidden mass that holds galaxies together.",
+     "source": "Quanta Magazine",
+     "url": "https://www.quantamagazine.org/novel-experiments-expand-the-hunt-for-ultralight-dark-matter-20261125/",
+     "published": "2026-11-25T14:00:49.000Z",
+     "readSec": 29
+    },
+    {
+     "id": "ea8acbe657f6",
+     "topic": "Mind",
+     "emoji": "📱",
+     "headline": "Two Childhood Stages Most Sensitive to Screen Time",
+     "body": "Researchers have pinpointed two age windows when screen exposure can hurt learning and memory the most: early infancy and the beginning of school. Children who spend more time on screens during these periods later show lower grades and weaker working memory. The study links heavy screen use to lasting impacts on academic performance years after the exposure. Parents and teachers can use this information to limit screen time during these critical stages.",
+     "aha": "Limiting screens in infancy and early school years protects kids’ long‑term learning ability.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261126033220.htm",
+     "published": "2026-11-27T03:56:06.000Z",
+     "readSec": 28
+    },
+    {
+     "id": "6baa707e74ec",
+     "topic": "Wow",
+     "emoji": "🌟",
+     "headline": "Rare Triple-Star System Defies Stellar Theory",
+     "body": "Astronomers have accidentally discovered a nearby triple-star system named Welopō'ai that should not exist according to current models. The system contains a red dwarf star tightly orbiting two dense white dwarfs, the remnants of dead stars. Normally, when the original star became a white dwarf, it would have swallowed the red dwarf, but the red dwarf survived. This odd arrangement forces scientists to rethink how close‑orbiting stars evolve.",
+     "aha": "A surviving red dwarf near two white dwarfs shows stars can survive explosions we thought would destroy them.",
+     "source": "Smithsonian",
+     "url": "https://www.smithsonianmag.com/smart-news/astronomers-accidentally-find-a-rare-triple-star-system-that-they-say-shouldnt-exist-its-located-just-28-light-years-from-earth-180989936/",
+     "published": "2026-11-25T16:37:34.000Z",
+     "readSec": 28
+    },
+    {
+     "id": "e97fae54855e",
+     "topic": "AI",
+     "emoji": "🤖",
+     "headline": "AI Tools Redefine Work of Theoretical Physicists",
+     "body": "Cutting‑edge artificial intelligence programs are now solving physics problems that once required a day of work by top researchers. These AI systems can crunch equations, test hypotheses, and suggest new models at lightning speed. As a result, the daily tasks of theoretical physicists are shifting from manual calculations to guiding and interpreting AI output. The change promises faster discoveries but also raises questions about the future role of human scientists.",
+     "aha": "AI can now do a physicist’s day‑long calculations in minutes, reshaping the field.",
+     "source": "Ars Technica",
+     "url": "https://arstechnica.com/ai/2026/11/ai-can-do-the-calculations-physicists-are-figuring-out-what-comes-next/",
+     "published": "2026-11-25T12:00:28.000Z",
+     "readSec": 27
+    },
+    {
+     "id": "5594f20b25dd",
+     "topic": "History",
+     "emoji": "⚓",
+     "headline": "Treasure Hunt Fuels Fierce Shipwreck Battles",
+     "body": "For centuries, the wreckage of lost ships has sparked violent contests over who can claim the sunken cargo. Salvagers, governments, and treasure hunters often fought each other, sometimes using legal tricks or force to secure rights. The high value of recovered goods turned shipwreck sites into lucrative, cut‑throat markets. Understanding this history shows how the lure of treasure can drive intense competition on the high seas.",
+     "aha": "Shipwrecks have long been a battlefield where treasure drives ruthless competition.",
+     "source": "JSTOR Daily",
+     "url": "https://daily.jstor.org/the-cutthroat-business-of-shipwrecks/",
+     "published": "2026-11-26T14:52:00.000Z",
+     "readSec": 25
+    }
+   ]
+  }
+ ],
+ "updated": "2026-11-27T05:46:47.864Z"
+}
