@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-27T23:40:20.309Z",
+   "stories": [
+    {
+     "id": "0c20c7905a17",
+     "topic": "Money",
+     "emoji": "🦃",
+     "headline": "Cannabis stays cheap while Thanksgiving prices rise",
+     "body": "Retailers offer steep discounts on Green Wednesday, a top cannabis sales day. Customers benefit from lower prices amid overall rising holiday costs. Experts note that cannabis retailers feel financial pressure despite discounts. Discounts aim to keep shoppers buying during expensive Thanksgiving period. Green Wednesday sales volume remains high, supporting retailer cash flow. The cheaper cannabis helps offset higher costs of food and travel. Retailers hope discounts sustain demand through the holiday season.",
+     "aha": "Even as everything else costs more, cheap cannabis becomes a budget‑friendly holiday treat.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/25/nx-s1-6046173/cannabis-marijuana-prices-retailers-discounts",
+     "published": "2026-11-25T10:00:00.000Z",
+     "readSec": 28
+    },
+    {
+     "id": "dc6fbeafb878",
+     "topic": "Science",
+     "emoji": "🌌",
+     "headline": "Mysterious lensing event may reveal ancient black hole",
+     "body": "Astronomers observed a star in the Large Magellanic Cloud brighten then fade over one hour. The smooth, symmetrical light change suggested an invisible object passing in front. They identified the pattern as gravitational microlensing, predicted by Einstein’s relativity. Team named the unseen object Phoebe but its true nature stays unknown. Three explanations include a rogue planet, a wandering galaxy planet, or a primordial black hole. A primordial black hole would have formed moments after the Big Bang, before any stars existed. If Phoebe is such a black hole, it would be the first discovered beyond our galaxy.",
+     "aha": "You’d think a brief brightening signals a star flare, but it may actually be a relic black hole from the universe’s birth.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261122060346.htm",
+     "published": "2026-11-26T02:00:33.000Z",
+     "readSec": 38
+    },
+    {
+     "id": "dbb93f14b166",
+     "topic": "Mind",
+     "emoji": "🧠",
+     "headline": "Emotional abuse at home fuels teen depression",
+     "body": "A year‑long study tracked teenagers experiencing verbal hostility and manipulation at home. Researchers found emotional abuse linked to higher risk of depressive symptoms later. Family dysfunction acted as a bridge connecting abuse to mental health problems. Lack of emotional support erodes self‑esteem, increasing anxiety and helplessness. Healthy family patterns provide resilience, identity, and coping skills for teens. The study highlights how subtle abuse can have lasting psychological impact. Interventions should target family communication to prevent adolescent depression.",
+     "aha": "Emotional wounds, though invisible, can shape a teen’s brain chemistry as powerfully as physical injuries.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/how-emotional-abuse-and-family-dynamics-shape-teen-depression-over-time/",
+     "published": "2026-11-27T23:00:32.000Z",
+     "readSec": 30
+    },
+    {
+     "id": "42e852e5bfc3",
+     "topic": "Ethics",
+     "emoji": "🐾",
+     "headline": "Pet food bank eases owners’ rising cost worries",
+     "body": "Burngreave Foodbank in Sheffield runs a pop‑up helping pet owners with food and supplies. The RSPCA provides cat litter, vet vouchers, toys, and pet food to queue‑liners. Owners like John Paul Feely spend about £35 monthly on five pets amid soaring bills. Rising fuel and energy costs force families to choose between heating and pet care. Volunteers offer tea while owners receive dog jackets and other essentials. The food bank offers a rare safety net for pets when owners face financial strain. RSPCA estimates keeping a small dog can cost over £200 each month.",
+     "aha": "Pet owners treat animal care like a hidden expense, yet community food banks now cushion that hidden cost.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/c623jgz7zmg8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-27T06:11:13.000Z",
+     "readSec": 36
+    },
+    {
+     "id": "990fb1f5e3db",
+     "topic": "Economics",
+     "emoji": "📈",
+     "headline": "India’s rapid growth narrows gap with China",
+     "body": "India’s GDP per capita reached $10,039, about five times its 1990 level. Growth now outpaces China, doubling living standards every twelve years. Extreme poverty fell from nearly half the population to just 2.6 percent. Electricity access rose to 99.9 percent, and open defecation dropped sharply. Infant mortality fell 72 percent while life expectancy rose fourteen years. Despite progress, India still needs freer labor markets and cleaner air. The country’s rise challenges the old link between size and poverty.",
+     "aha": "India’s surge shows a massive nation can lift millions out of poverty faster than larger economies once did.",
+     "source": "Marginal Revolution",
+     "url": "https://marginalrevolution.com/marginalrevolution/2026/11/india-is-on-the-move.html?utm_source=rss&utm_medium=rss&utm_campaign=india-is-on-the-move",
+     "published": "2026-11-27T12:17:03.000Z",
+     "readSec": 31
+    }
+   ],
+   "rabbit": {
+    "id": "a4b81e4d8266",
+    "topic": "Mind",
+    "emoji": "💡",
+    "title": "Why metabolism matters for models of thought",
+    "body": "Philosophers and scientists build many mind models, often ignoring brain energy use. Metabolism includes energy consumption, maintenance, regulation, and waste removal in the brain. The brain, though only 2% of body mass, uses about 20% of energy. Without metabolic constraints, mind theories risk becoming unrealistic and untethered. Including metabolism could align mental models with real‑world biological limits.",
+    "dig": [
+     {
+      "q": "How does brain energy use affect cognition?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20brain%20energy%20use%20affect%20cognition%3F"
+     },
+     {
+      "q": "What evidence links metabolism to mental processes?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20evidence%20links%20metabolism%20to%20mental%20processes%3F"
+     },
+     {
+      "q": "Can metabolic models improve AI design?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20metabolic%20models%20improve%20AI%20design%3F"
+     }
+    ],
+    "source": "Aeon",
+    "url": "https://aeon.co/essays/all-our-models-of-how-the-mind-functions-are-missing-something"
+   }
+  },
+  {
    "at": "2026-11-27T20:40:30.754Z",
    "stories": [
     {
@@ -746,5 +834,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T20:40:30.754Z"
+ "updated": "2026-11-27T23:40:20.309Z"
 }
