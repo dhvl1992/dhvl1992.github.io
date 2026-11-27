@@ -1,6 +1,6 @@
 # Curiosity Feed: builds feed/feed.json 4× a day.
 # Times are UTC → India: 00:30=6:00 AM, 07:30=1:00 PM, 12:00=5:30 PM, 15:30=9:00 PM.
-# GitHub may start scheduled runs 5–30 min late. Run by hand: Actions → Curiosity Feed → Run workflow.
+# GitHub may start scheduled runs 5–30 min late. Run by hand: Actions → Curiosity Feed → Run workflow.ok
 name: Curiosity Feed
 
 on:
