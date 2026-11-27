@@ -1,12 +1,18 @@
-# My Apps — Design rules
+# dhvl1992 — Design rules
 
 Every app in this project follows ONE look: minimal, quiet, easy on the eyes.
 The values live in [`theme.css`](theme.css). Do not invent new colors, fonts or sizes in an app.
 
-## How an app uses it
+## How an app uses it — two shared files, one line each
 ```html
-<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/theme.css">      <!-- in <head>: colors, font, spacing, shapes -->
+<link rel="manifest" href="/manifest.json">    <!-- in <head>: ONE installable app (dhvl1992) for everything -->
+...
+<script src="/topbar.js"></script>             <!-- end of <body>: the shared top bar -->
 ```
+`/topbar.js` adds the bar (logo + "dhvl1992 › App name" → home, account menu). It reads the app list from `/apps.js`.
+Fixed parts of an app (bottom tabs, side panels) should start below the bar: `top: var(--topbar-h)`.
+Start every new app from [`_template/index.html`](_template/index.html).
 Then use the tokens (`var(--bg)`, `var(--accent)` …) and the ready classes:
 `.wrap` `.title` `.sub` `.card` `.btn` `.btn-primary` `.seg` `.input` `.back` `.note` `.muted`.
 
@@ -23,9 +29,13 @@ into their own CSS instead of linking — but the values must match `theme.css`.
 5. **No hard borders.** Separate things with space, soft grey fills, or a very soft shadow.
 6. **Few things per screen.** One title, one short line of help, then the content.
 7. **Icons** — soft grey rounded tile, black shapes, at most one blue shape. Drawn as inline SVG.
-8. **Every app has a "← All apps" link** (`<a class="back" href="/">`) at the top.
+8. **Every app loads `/topbar.js`.** The bar is the way home — no separate "← All apps" link.
+9. **One app, not many.** Apps link `/manifest.json` (the hub's). No app has its own manifest, so the phone installs only "dhvl1992".
+10. **No third-party scripts** (no CDNs, ads, analytics). All apps share this website, so any script could read your MyBrain login.
+    Copy libraries into the repo instead (like `mybrain/vendor/`).
+11. **Offline apps** (with a caching service worker) must also cache `/theme.css`, `/topbar.js` and `/apps.js`.
 
 ## Adding a new app
 1. Make its own repo, turn on GitHub Pages (Settings → Pages → `main` / root).
-2. Link `/theme.css`, follow the rules above.
-3. Add one line to the `APPS` list in this repo's `index.html` (+ an icon in `ICONS`).
+2. Copy `_template/index.html` from this repo as its starting page (theme, manifest and top bar already linked).
+3. Add one line to `HUB.apps` in this repo's `apps.js` (+ an icon in `HUB.icons`). It then shows on the home page AND in the top bar.

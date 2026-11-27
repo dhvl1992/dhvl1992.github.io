@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Apps</title>
+<title>dhvl1992</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#fafafa">
 <meta name="color-scheme" content="only light">
@@ -18,27 +18,7 @@
   .ico{width:52px; height:52px; display:block}
   .name{margin-top:var(--s2)}
   .desc{font-size:var(--fs-sm); color:var(--muted); margin-top:2px}
-  /* ---------- Top bar ---------- */
-  .topbar{position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
-          height:64px; margin:0 calc(-1 * var(--s3)) var(--s2); padding:0 var(--s3);
-          background:rgba(250,250,250,.88); -webkit-backdrop-filter:saturate(1.4) blur(12px); backdrop-filter:saturate(1.4) blur(12px)}
-  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; font-size:20px; font-weight:500; letter-spacing:-.01em}
-  .brand .logo{width:36px; height:36px}
-  .acct{position:relative}
-  .avatar{width:40px; height:40px; border-radius:50%; border:0; background:var(--soft); color:var(--muted); cursor:pointer;
-          display:grid; place-items:center; font-size:16px; font-weight:500; padding:0}
-  .avatar svg{width:22px; height:22px}
-  .avatar.in{background:var(--ink); color:var(--surface)}
-  .menu{position:absolute; right:0; top:48px; min-width:280px; max-width:calc(100vw - 32px); background:var(--surface); border-radius:var(--r-ctl);
-        box-shadow:0 8px 30px rgba(0,0,0,.12); padding:var(--s1); display:flex; flex-direction:column}
-  .menu[hidden]{display:none}
-  .menu-who{font-size:var(--fs-sm); color:var(--muted); padding:var(--s1) 12px 12px; overflow-wrap:anywhere}
-  .menu a, .menu button{display:block; text-align:left; border:0; background:none; padding:12px; border-radius:12px;
-          font-size:15px; text-decoration:none; color:var(--ink); cursor:pointer}
-  .menu a:hover, .menu button:hover{background:var(--soft)}
-  #install{display:none}
-  .wrap{padding-top:0}
-  #mLogout{color:var(--warn)}
+  .wrap{padding-top:var(--s3)}
   .sec-head{margin:0 0 var(--s2)}
   .sec-head h2{font-size:var(--fs-lg); font-weight:500; margin:0; letter-spacing:-.01em}
 
@@ -90,8 +70,7 @@
   .story::-webkit-scrollbar{display:none}
   /* Wide screens: apps left, feed right; the page fits the screen and only the feed scrolls */
   @media (min-width: 1000px){
-    .wrap{max-width:1180px; height:100dvh; padding-top:0; padding-bottom:var(--s3); display:flex; flex-direction:column}
-    .topbar{margin-bottom:var(--s3)}
+    .wrap{max-width:1180px; height:calc(100dvh - var(--topbar-h, 64px)); padding-bottom:var(--s3); display:flex; flex-direction:column}
     .layout{flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:var(--s5)}
     .col-feed{display:flex; flex-direction:column; min-height:0}
     .col-apps{display:flex; flex-direction:column; min-height:0}
@@ -103,7 +82,7 @@
   }
   /* Phones: almost full screen like Reels, slightly tighter text so a story fits one screen */
   @media (max-width: 600px){
-    #feed{height:calc(100dvh - 72px - 64px); max-height:780px} /* minus the sticky top bar */
+    #feed{height:calc(100dvh - 72px); max-height:780px} /* the shared bar hides while you scroll the feed */
     .story{padding:20px}
     .story h3{font-size:calc(18px * var(--fit)); margin:12px 0 6px}
     .story p{font-size:calc(16px * var(--fit)); line-height:1.45; margin-bottom:8px}
@@ -132,26 +111,6 @@
 </head>
 <body>
 <div class="wrap">
- <!-- Top bar: logo + name (home) on the left, account menu on the right -->
- <header class="topbar">
-  <a class="brand" href="/" id="homeBtn" aria-label="My Apps home">
-    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="18" fill="var(--soft)"/>
-      <rect x="15" y="15" width="15" height="15" rx="4.5" fill="var(--ink)"/><rect x="34" y="15" width="15" height="15" rx="4.5" fill="var(--accent)"/>
-      <rect x="15" y="34" width="15" height="15" rx="4.5" fill="var(--accent)"/><rect x="34" y="34" width="15" height="15" rx="4.5" fill="var(--ink)"/></svg>
-    <span>My Apps</span>
-  </a>
-  <div class="acct">
-    <button class="avatar" id="acctBtn" aria-label="Account and settings" aria-haspopup="menu" aria-expanded="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="4" fill="currentColor"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6z" fill="currentColor"/></svg>
-    </button>
-    <div class="menu" id="acctMenu" role="menu" hidden>
-      <div class="menu-who" id="acctWho">Not logged in</div>
-      <a role="menuitem" href="/mybrain/" id="mOpen">Open MyBrain</a>
-      <button role="menuitem" id="install">Install as app</button>
-      <button role="menuitem" id="mLogout" hidden>Log out</button>
-    </div>
-  </div>
- </header>
 
  <div class="layout">
  <section class="col-apps">
@@ -176,37 +135,12 @@
  </div>
 </div>
 
+<script src="/apps.js"></script>
 <script>
-// ---- Icons: soft grey tile, black shapes, one blue shape (see DESIGN.md) ----
-const K = "var(--ink)", A = "var(--accent)";
-const ICONS = {
-  // checklist
-  brain: `<rect x="14" y="15" width="8" height="8" rx="2" fill="${A}"/><rect x="26" y="17" width="24" height="4" rx="2" fill="${K}"/>
-          <rect x="14" y="28" width="8" height="8" rx="2" fill="${A}"/><rect x="26" y="30" width="24" height="4" rx="2" fill="${K}"/>
-          <rect x="14" y="41" width="8" height="8" rx="2" fill="${K}"/><rect x="26" y="43" width="16" height="4" rx="2" fill="${K}"/>`,
-  // rising bars
-  sip:   `<rect x="14" y="36" width="9" height="14" rx="2.5" fill="${K}"/><rect x="27.5" y="27" width="9" height="23" rx="2.5" fill="${K}"/>
-          <rect x="41" y="16" width="9" height="34" rx="2.5" fill="${A}"/>`,
-  // open book
-  book:  `<path d="M12 19 Q22 15 31 19 V48 Q22 44 12 48 Z" fill="${K}"/><path d="M33 19 Q42 15 52 19 V48 Q42 44 33 48 Z" fill="${A}"/>`,
-  // page → picture
-  pdf:   `<rect x="12" y="11" width="24" height="31" rx="4" fill="${K}"/>
-          <rect x="26" y="26" width="27" height="27" rx="5" fill="${A}" stroke="var(--soft)" stroke-width="3"/>
-          <path d="M31 48 L38 39 L42 44 L45 41 L49 48 Z" fill="${K}"/>`,
-};
-const tile = k => `<svg class="ico" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="var(--soft)"/>${ICONS[k]}</svg>`;
-
-// ---- Single source of truth: add a new app = add one line here ----
-const APPS = [
-  { name: "MyBrain",        desc: "To-do + notes",        icon: "brain", url: "/mybrain/" },
-  { name: "SIP Calculator", desc: "Monthly ETF splitter", icon: "sip",   url: "/sipcalc/" },
-  { name: "Quiet Reader",   desc: "Markdown book reader", icon: "book",  url: "/reader/" },
-  { name: "PDF to JPG",     desc: "Pages to images",      icon: "pdf",   url: "/pdf2jpg/" },
-];
-
-document.getElementById("grid").innerHTML = APPS.map(a => `
+// App list + icons come from /apps.js (shared with the top bar)
+document.getElementById("grid").innerHTML = HUB.apps.map(a => `
   <a class="app" href="${a.url}">
-    ${tile(a.icon)}
+    ${HUB.tile(a.icon)}
     <div class="name">${a.name}</div>
     <div class="desc">${a.desc}</div>
   </a>`).join("");
@@ -231,7 +165,6 @@ async function loadToday() {
   try {
     const db = await getMB();
     const { data: { session } } = await db.auth.getSession();
-    setAccount(session);
     if (!session) {
       box.innerHTML = `<div class="tmsg"><a href="/mybrain/">Log in to MyBrain</a> to see today's tasks here.</div>`;
       return;
@@ -254,40 +187,8 @@ async function loadToday() {
   }
 }
 
-// ---- Top bar: home + account menu ----
-const acctBtn = document.getElementById("acctBtn"), acctMenu = document.getElementById("acctMenu");
-function setAccount(session) {
-  const email = session?.user?.email || "";
-  if (email) {
-    acctBtn.classList.add("in");
-    acctBtn.textContent = email[0].toUpperCase();
-    acctBtn.title = email;
-    document.getElementById("acctWho").textContent = "Signed in as " + email;
-    document.getElementById("mOpen").textContent = "Open MyBrain";
-    document.getElementById("mLogout").hidden = false;
-  } else {
-    document.getElementById("acctWho").textContent = "Not logged in";
-    document.getElementById("mOpen").textContent = "Log in to MyBrain";
-  }
-}
-function toggleMenu(open = acctMenu.hidden) {
-  acctMenu.hidden = !open;
-  acctBtn.setAttribute("aria-expanded", String(open));
-}
-acctBtn.addEventListener("click", e => { e.stopPropagation(); toggleMenu(); });
-document.addEventListener("click", e => { if (!acctMenu.hidden && !e.target.closest(".acct")) toggleMenu(false); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") toggleMenu(false); });
-document.getElementById("mLogout").addEventListener("click", async () => {
-  try { await (await getMB()).auth.signOut({ scope: "local" }); } catch {} // "local" = only this browser, other devices stay logged in
-  location.reload();
-});
-// Logo/name: on the home page, scroll back to the top (like tapping Instagram's logo)
-document.getElementById("homeBtn").addEventListener("click", e => {
-  if (location.pathname !== "/") return;
-  e.preventDefault();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  document.getElementById("feed")?.scrollTo({ top: 0, behavior: "smooth" });
-});
+// Logo tapped on the home page → also scroll the feed back to its first story
+document.addEventListener("topbar:home", () => document.getElementById("feed")?.scrollTo({ top: 0, behavior: "smooth" }));
 
 // ---- Curiosity Feed ----
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -398,16 +299,7 @@ loadToday();
 // Service worker: needed so Chrome offers "Install"
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js");
 
-// Show our own Install button when Chrome allows it
-let promptEvent = null;
-const btn = document.getElementById("install");
-window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); promptEvent = e; btn.style.display = "block"; });
-btn.addEventListener("click", async () => {
-  if (!promptEvent) return;
-  promptEvent.prompt();
-  await promptEvent.userChoice;
-  promptEvent = null; btn.style.display = "none"; toggleMenu(false);
-});
 </script>
+<script src="/topbar.js"></script>
 </body>
 </html>
