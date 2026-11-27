@@ -148,6 +148,8 @@ For each STORY write:
   Each sentence 10–15 words. Simple English a 12-year-old understands. Explain hard words in a few words.
   If the article text is short, write only 4 sentences. Never pad with general statements.
 - "aha": ONE sentence, max 25 words. It must say something the headline does NOT: a flipped expectation ("You'd think X, but Y"), a hidden link, or what it means for daily life.
+  VARY the style across cards: a flipped expectation, a hidden link, a "so what" for daily life, or a striking detail.
+  Use "You'd think…" at most once per run.
   The aha must be TRUE to the article: no comparisons, numbers or claims ("more than", "despite high pay", "cotton dominates") unless the article says them.
    BAD aha: "Shipwrecks have long been a battlefield where treasure drives competition." (only repeats)
    GOOD aha: "Old shipwrecks were not just lost treasure. They started the legal fights that still decide who owns the sea floor."
