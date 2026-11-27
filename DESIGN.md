@@ -38,6 +38,6 @@ into their own CSS instead of linking — but the values must match `theme.css`.
 11. **Offline apps** (with a caching service worker) must also cache `/theme.css`, `/topbar.js` and `/apps.js`.
 
 ## Adding a new app
-1. Make its own repo, turn on GitHub Pages (Settings → Pages → `main` / root).
+1. Make its own repo **with a lowercase name** (web addresses are case-sensitive: `Reelscribe` ≠ `reelscribe`), turn on GitHub Pages (Settings → Pages → `main` / root).
 2. Copy `_template/index.html` from this repo as its starting page (theme, manifest and top bar already linked).
 3. Add one line to `HUB.apps` in this repo's `apps.js` (+ an icon in `HUB.icons`). It then shows on the home page AND in the top bar.

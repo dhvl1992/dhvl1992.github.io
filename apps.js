@@ -37,6 +37,7 @@
     ],
   };
   // Which app is this page? (longest matching address wins)
-  HUB.current = HUB.apps.filter((a) => location.pathname.startsWith(a.url)).sort((a, b) => b.url.length - a.url.length)[0] || null;
+  const path = location.pathname.toLowerCase(); // ignore capital letters (repo "Reelscribe" vs link "/reelscribe/")
+  HUB.current = HUB.apps.filter((a) => path.startsWith(a.url.toLowerCase())).sort((a, b) => b.url.length - a.url.length)[0] || null;
   HUB.tile = (k, cls = "ico") => `<svg class="${cls}" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="${S}"/>${HUB.icons[k] || ""}</svg>`;
 })();
