@@ -131,8 +131,10 @@ From the numbered candidates, choose exactly ${PICK} STORIES and 1 RABBIT HOLE.
 CHOOSE stories that are surprising, useful or fun (a real "Aha!"), not routine news.
 - Use ${PICK} different topics from: ${TOPICS.join(", ")}. Prefer the "topics needed" listed below.
 - At least one Money or Business story if any candidate fits. At least 3 different sources.
-Topic meanings: Mind = psychology, habits, brain. Communication = how to talk, listen, persuade, write or handle people better.
-Geopolitics = why countries act as they do: trade, borders, resources, alliances, power. Wow = surprising facts.
+Topic meanings: Mind = psychology, habits, brain. Communication = how PEOPLE talk, listen, persuade, write or handle each other
+(never computer networks or telecom). Geopolitics = why countries act as they do: trade, borders, resources, alliances, power.
+Money = personal money, prices, jobs, economy. Business = companies and how industries work. Wow = surprising facts.
+Give each story its TRUE topic. If no candidate truly fits a needed topic, skip that topic — never force a label.
 SKIP: election fights, party politics, crime, war casualties, deaths, celebrity gossip, sales/deals, product launches, very technical stories.
 RABBIT HOLE: one more candidate (not one of the stories) that opens a deeper question worth exploring.
 Reply with JSON only: {"stories":[{"id":<number>,"topic":""}],"rabbit":{"id":<number>,"topic":""}}`;
@@ -142,16 +144,18 @@ const WRITE_PROMPT = `You write cards for a "Curiosity Feed" for a busy teacher 
 
 For each STORY write:
 - "headline": max 10 words, plain and curious. No clickbait, no question marks.
-- "body": a LIST of 5 or 6 short sentences that tell the story in order. Each sentence 10–15 words. Simple English a 12-year-old understands. Explain hard words in a few words.
-  If the article text is short, write only 3 or 4 sentences. Never pad with general statements.
+- "body": a LIST of 7 short sentences that tell the story in order: what happened, how we know, the key detail, why it matters.
+  Each sentence 10–15 words. Simple English a 12-year-old understands. Explain hard words in a few words.
+  If the article text is short, write only 4 sentences. Never pad with general statements.
 - "aha": ONE sentence, max 25 words. It must say something the headline does NOT: a flipped expectation ("You'd think X, but Y"), a hidden link, or what it means for daily life.
+  The aha must be TRUE to the article: no comparisons, numbers or claims ("more than", "despite high pay", "cotton dominates") unless the article says them.
    BAD aha: "Shipwrecks have long been a battlefield where treasure drives competition." (only repeats)
    GOOD aha: "Old shipwrecks were not just lost treasure. They started the legal fights that still decide who owns the sea floor."
 - "emoji": one fitting emoji. Keep the "id" and "topic" you were given.
 
 For the RABBIT HOLE write:
-- "title": max 10 words, a curious question or idea.
-- "body": a LIST of 3 or 4 short sentences (max 15 words each): what the article says and why it is worth digging into.
+- "title": max 10 words, a curious question or idea that comes straight from the article (no new subjects).
+- "body": a LIST of 4 short sentences (max 15 words each): what the article says and why it is worth digging into.
 - "dig": exactly 3 short follow-up questions (max 10 words each) a curious person would search next.
 
 STRICT FACT RULE: every fact must come from that article's text. Do not add numbers, times, speeds, names, dates, causes,
