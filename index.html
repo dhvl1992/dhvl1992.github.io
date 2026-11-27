@@ -31,7 +31,17 @@
   .slide{height:100%; scroll-snap-align:start; scroll-snap-stop:always; padding-bottom:var(--s2)}
   .story{height:100%; display:flex; flex-direction:column; overflow-y:auto; overscroll-behavior:auto; scrollbar-width:none;
          background:var(--surface); border-radius:var(--r-card); padding:var(--s3); box-shadow:var(--shadow)}
-  .story .src{margin-top:auto; padding-top:var(--s2)}
+  .story .src{align-self:flex-start; margin-bottom:var(--s2)}
+  /* Text size is set per card by fitText(): short stories get bigger text to fill the window */
+  .story{--fit:1}
+  .story h3{font-size:calc(20px * var(--fit))}
+  .story p, .story .aha{font-size:calc(17px * var(--fit))}
+  .next{margin-top:auto; display:flex; align-items:center; gap:var(--s1); width:100%; border:0; background:var(--soft); border-radius:var(--r-ctl);
+        padding:12px var(--s2); cursor:pointer; text-align:left; font-size:var(--fs-sm); color:var(--muted)}
+  .next b{font-weight:400; color:var(--ink); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .next.done{cursor:default; justify-content:center}
+  .story.tight .next{display:none}
+  .rabbit .next{background:var(--surface)}
   .when{font-size:var(--fs-sm); color:var(--muted)}
   .feed-nav{display:flex; align-items:center; justify-content:flex-end; gap:var(--s1); margin:0 0 var(--s1)}
   .feed-nav .count{font-size:var(--fs-sm); color:var(--muted); margin-right:auto}
@@ -51,17 +61,17 @@
   @media (max-width: 600px){
     #feed{height:calc(100dvh - 72px); max-height:780px}
     .story{padding:20px}
-    .story h3{font-size:18px; margin:12px 0 6px}
-    .story p{font-size:16px; line-height:1.45; margin-bottom:8px}
-    .aha{margin-top:12px; padding:12px var(--s2); font-size:16px; line-height:1.45}
-    .story .src{padding-top:12px}
+    .story h3{font-size:calc(18px * var(--fit)); margin:12px 0 6px}
+    .story p{font-size:calc(16px * var(--fit)); line-height:1.45; margin-bottom:8px}
+    .aha{margin-top:12px; padding:12px var(--s2); font-size:calc(16px * var(--fit)); line-height:1.45}
+    .next{padding:10px 14px}
   }
   .story-top{display:flex; align-items:center; gap:var(--s1); font-size:var(--fs-sm); color:var(--muted)}
   .topic{display:inline-flex; align-items:center; gap:6px; background:var(--soft); color:var(--ink); border-radius:var(--r-pill); padding:4px 12px}
   .topic .em{font-size:16px; line-height:1}
   .new{background:var(--accent); color:var(--on-accent); border-radius:var(--r-pill); padding:2px 10px; font-size:12px}
   .read{margin-left:auto; text-align:right}
-  .story h3{font-size:20px; font-weight:500; line-height:1.3; margin:var(--s2) 0 var(--s1); letter-spacing:-.01em}
+  .story h3{font-weight:500; line-height:1.3; margin:var(--s2) 0 var(--s1); letter-spacing:-.01em}
   .story p{margin:0 0 10px} .story p:last-of-type{margin-bottom:0}
   .aha{margin-top:var(--s2); background:var(--soft); border-radius:var(--r-ctl); padding:var(--s2)}
   .aha b{display:block; font-weight:500; font-size:var(--fs-sm); margin-bottom:4px}
@@ -149,7 +159,11 @@ function paras(text) {
   for (let i = 0; i < sent.length; i += n) out.push(sent.slice(i, i + n).join("").trim());
   return out.map(p => `<p>${esc(p)}</p>`).join("");
 }
-const storyHtml = (s, isNew, when) => `
+// Bottom of each card: preview of the next one (fills spare space, invites the next flick)
+const nextHtml = n => n
+  ? `<button class="next" data-next>Up next<b>${esc(n.emoji)} ${esc(n.title)}</b>↓</button>`
+  : `<div class="next done">You're all caught up ✓</div>`;
+const storyHtml = (s, isNew, when, next) => `
   <div class="slide"><article class="story">
     <div class="story-top"><span class="topic"><span class="em">${esc(s.emoji)}</span>${esc(s.topic)}</span>
       ${isNew ? '<span class="new">New</span>' : ""}<span class="read">${esc(when)}<br>~${esc(s.readSec)} sec read</span></div>
@@ -157,14 +171,16 @@ const storyHtml = (s, isNew, when) => `
     ${paras(s.body)}
     <div class="aha"><b>💡 Aha!</b>${esc(s.aha)}</div>
     <a class="src" href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">Read at ${esc(s.source)} ›</a>
+    ${nextHtml(next)}
   </article></div>`;
-const rabbitHtml = (r, when) => `
+const rabbitHtml = (r, when, next) => `
   <div class="slide"><article class="story rabbit">
     <div class="story-top"><span class="topic"><span class="em">🕳️</span>Rabbit hole · ${esc(r.topic)}</span><span class="read">${esc(when)}</span></div>
     <h3>${esc(r.title)}</h3>
     <p>${esc(r.body)}</p>
     <div class="dig">${(r.dig || []).map(d => `<a href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener">${esc(d.q)}<span>›</span></a>`).join("")}</div>
     <a class="src" href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener">Starts from ${esc(r.source)} ›</a>
+    ${nextHtml(next)}
   </article></div>`;
 
 async function loadFeed() {
@@ -178,12 +194,17 @@ async function loadFeed() {
     const runs = (feed.runs || []).filter(r => r.stories?.length);
     if (!runs.length) throw new Error("empty");
     document.getElementById("feedWhen").textContent = "Updated " + time(new Date(feed.updated));
-    box.innerHTML = runs.map(r => {
-      const isNew = lastVisit && Date.parse(r.at) > lastVisit;
-      const when = runLabel(r.at);
-      return r.stories.map(s => storyHtml(s, isNew, when)).join("") + (r.rabbit ? rabbitHtml(r.rabbit, when) : "");
-    }).join("");
+    // Flatten to one list of cards, so each card knows the next one
+    const cards = [];
+    runs.forEach(r => {
+      const isNew = lastVisit && Date.parse(r.at) > lastVisit, when = runLabel(r.at);
+      r.stories.forEach(s => cards.push({ kind: "story", d: s, isNew, when, title: s.headline, emoji: s.emoji }));
+      if (r.rabbit) cards.push({ kind: "rabbit", d: r.rabbit, when, title: r.rabbit.title, emoji: "🕳️" });
+    });
+    box.innerHTML = cards.map((c, i) => c.kind === "story"
+      ? storyHtml(c.d, c.isNew, c.when, cards[i + 1]) : rabbitHtml(c.d, c.when, cards[i + 1])).join("");
     box.scrollTop = 0;
+    fitText();
     updateCount();
     try { localStorage.setItem("feedLastVisit", String(Date.now())); } catch {}
   } catch (e) {
@@ -191,6 +212,19 @@ async function loadFeed() {
     document.querySelector(".feed-nav").style.display = "none";
   }
 }
+
+// Biggest text (up to 140%) that still fits each card, so short stories don't leave empty space
+function fitText() {
+  for (const card of document.querySelectorAll("#feed .story")) {
+    let f = 1.4;
+    card.style.setProperty("--fit", f);
+    card.classList.remove("tight");
+    while (f > 1 && card.scrollHeight > card.clientHeight + 1) { f = Math.round((f - 0.05) * 100) / 100; card.style.setProperty("--fit", f); }
+    if (card.scrollHeight > card.clientHeight + 1) card.classList.add("tight"); // long story: no room for "Up next"
+  }
+}
+let fitTimer;
+window.addEventListener("resize", () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitText, 150); });
 
 // "3 / 21" counter + ↑ ↓ buttons (one story per step)
 const feedBox = document.getElementById("feed");
@@ -202,6 +236,7 @@ function updateCount() {
   document.getElementById("feedDown").disabled = i >= n - 1;
 }
 feedBox.addEventListener("scroll", () => requestAnimationFrame(updateCount), { passive: true });
+feedBox.addEventListener("click", e => { if (e.target.closest("[data-next]")) document.getElementById("feedDown").click(); });
 document.getElementById("feedUp").onclick = () => feedBox.scrollBy({ top: -feedBox.clientHeight, behavior: "smooth" });
 document.getElementById("feedDown").onclick = () => feedBox.scrollBy({ top: feedBox.clientHeight, behavior: "smooth" });
 // Keyboard ↑ ↓ (desktop) move one story
