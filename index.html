@@ -298,6 +298,11 @@ loadToday();
 
 // Service worker: needed so Chrome offers "Install"
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js");
+// One-time clean-up: the August ReelScribe left a service worker at /Reelscribe/ that serves an old saved copy forever.
+if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then((rs) => rs.forEach((r) => {
+  if (/\/reelscribe\/$/i.test(new URL(r.scope).pathname)) r.unregister();
+}));
+if (window.caches) caches.delete("reel-scribe-shell-v1");
 
 </script>
 <script src="/topbar.js"></script>
