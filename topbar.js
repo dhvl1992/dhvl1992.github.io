@@ -8,6 +8,8 @@
 // - Phone: hides when you scroll down, comes back when you scroll up
 // - Sealed (Shadow DOM): app CSS can't break the bar, the bar can't break the app
 // - Apps can use var(--topbar-h) to keep fixed parts below the bar (it becomes 0px while the bar is off)
+// - var(--topbar-y) = how much of the bar is visible right now (0px when it slid away on a phone) — use it
+//   for fixed overlays (side pages) so they sit exactly under the bar
 // - Full-screen modes (reading a book, a game): document.dispatchEvent(new Event("topbar:off")) / ("topbar:on")
 // =========================================================
 (function () {
@@ -41,6 +43,7 @@
     const host = document.createElement("div");
     host.id = "dhvl-topbar";
     document.documentElement.style.setProperty("--topbar-h", BAR_H + "px");
+    document.documentElement.style.setProperty("--topbar-y", BAR_H + "px");
     const root = host.attachShadow({ mode: "open" });
     const email = readEmail();
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -136,6 +139,7 @@
     const setOff = (off) => {
       host.style.setProperty("display", off ? "none" : "block", "important");
       document.documentElement.style.setProperty("--topbar-h", off ? "0px" : BAR_H + "px");
+      document.documentElement.style.setProperty("--topbar-y", off ? "0px" : BAR_H + "px");
       if (off) toggle(false);
     };
     document.addEventListener("topbar:off", () => setOff(true));
@@ -145,6 +149,7 @@
     // Phone: hide on scroll down, show on scroll up
     function setHidden(h) {
       host.style.setProperty("transform", h ? "translateY(-100%)" : "none", "important");
+      document.documentElement.style.setProperty("--topbar-y", h ? "0px" : BAR_H + "px");
       host.classList.toggle("hidden", h);
     }
     let lastY = window.scrollY;
