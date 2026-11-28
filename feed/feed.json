@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-28T06:14:05.455Z",
+   "stories": [
+    {
+     "id": "56af4a064171",
+     "topic": "AI",
+     "emoji": "🤖",
+     "headline": "Strong AI May Empower Humans, Not Just Disempower",
+     "body": "Discussions about AI disempowerment are common. Some argue humans lose control with strong AI. Others point out AI can increase human agency. They give examples of AI aiding decision making. They show AI helping people see new options. They argue AI can free humans from routine tasks. They conclude net empowerment is possible.",
+     "aha": "You'd think AI only takes jobs, but it can also give people more time for creativity.",
+     "source": "Marginal Revolution",
+     "url": "https://marginalrevolution.com/marginalrevolution/2026/11/disempowerment-vs-net-disempowerment.html?utm_source=rss&utm_medium=rss&utm_campaign=disempowerment-vs-net-disempowerment",
+     "published": "2026-11-28T06:02:07.000Z",
+     "readSec": 23
+    },
+    {
+     "id": "16dfb72df17e",
+     "topic": "Science",
+     "emoji": "🧪",
+     "headline": "Scientists Trap Single Antimatter Particle in Vacuum",
+     "body": "Physicists at Northwestern captured a moving positron. They slowed it and cooled it near absolute zero. They confined it in a near-perfect vacuum. They called the setup a one-positron quantum cyclotron. The positron behaves like an artificial atom. They can measure its energy levels precisely. They hope to test symmetry with electrons.",
+     "aha": "The trick is not just trapping antimatter, but using it to challenge our biggest physics model.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261124055849.htm",
+     "published": "2026-11-25T10:06:22.000Z",
+     "readSec": 23
+    },
+    {
+     "id": "8f5e714b16e1",
+     "topic": "Science",
+     "emoji": "🌌",
+     "headline": "Space Telescope Finds First Comet in Solar System",
+     "body": "ESA’s Euclid telescope captured a new comet. It was found while looking at distant galaxies. Researchers used software to spot streaks in images. They confirmed the comet with Earth telescopes. The comet is far above the planet plane. It could be a target for future missions. Its discovery shows Euclid’s versatility.",
+     "aha": "A telescope built for galaxies can also find comets, showing science tools can surprise us.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261124055852.htm",
+     "published": "2026-11-25T10:35:04.000Z",
+     "readSec": 22
+    },
+    {
+     "id": "c331218a77ca",
+     "topic": "Business",
+     "emoji": "💼",
+     "headline": "Trump Tariffs Shift to Negotiation, Not Shock",
+     "body": "Trump announced new tariffs this week. They are not immediate but require negotiation. The rates are upper ceilings, not fixed. They replace earlier forced‑labour basis. They aim to curb excess production abroad. They face legal challenges from allies. They may be repealed by a new Congress.",
+     "aha": "The tariffs are more about legal footing than a sudden trade war.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/c6r7g4e3yep1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-26T19:55:58.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "82ccc10d643e",
+     "topic": "Economics",
+     "emoji": "🏠",
+     "headline": "Insurers Test Houses Like Crash‑Test Dummies",
+     "body": "Insurance firms study houses for fire risk. They light mock houses to see damage. They test wind and hail resistance too. They use results to set premiums. Homeowners invest in fire‑proofing. But insurance costs stay high. The goal is safer, cheaper coverage.",
+     "aha": "Testing houses is like crash tests for cars, but the savings are still elusive.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/sections/planet-money/2026/11/24/g-s1-154477/what-should-it-cost-to-insure-a-home-in-wildfire-country",
+     "published": "2026-11-24T11:30:00.000Z",
+     "readSec": 20
+    }
+   ],
+   "rabbit": {
+    "id": "a4b81e4d8266",
+    "topic": "Mind",
+    "emoji": "🧠",
+    "title": "Why Mind Models Ignore Brain Metabolism",
+    "body": "Models of mind often ignore energy use. They focus on computation, not metabolism. Metabolism keeps the brain alive and working. Without it models drift from reality. Energy use shapes brain function in learning. Understanding metabolism could fix gaps. It shows mind models need biological limits.",
+    "dig": [
+     {
+      "q": "How does metabolism affect learning?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20metabolism%20affect%20learning%3F"
+     },
+     {
+      "q": "What models include energy use?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20models%20include%20energy%20use%3F"
+     },
+     {
+      "q": "Can brain energy limits change AI?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20brain%20energy%20limits%20change%20AI%3F"
+     }
+    ],
+    "source": "Aeon",
+    "url": "https://aeon.co/essays/all-our-models-of-how-the-mind-functions-are-missing-something"
+   }
+  },
+  {
    "at": "2026-11-27T23:40:20.309Z",
    "stories": [
     {
@@ -834,5 +922,5 @@
    ]
   }
  ],
- "updated": "2026-11-27T23:40:20.309Z"
+ "updated": "2026-11-28T06:14:05.455Z"
 }
