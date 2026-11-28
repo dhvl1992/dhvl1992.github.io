@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-28T19:30:54.129Z",
+   "stories": [
+    {
+     "id": "8eec6001336a",
+     "topic": "AI",
+     "emoji": "🤖",
+     "headline": "AI reshapes markets and real businesses with mixed outcomes",
+     "body": "Investors feel AI’s impact shaking stock market predictions. Reports show AI tools being tried in everyday companies. Some firms report productivity gains while others see confusion. Data comes from market analysts and business case studies. Key detail: AI adoption results vary widely across sectors. This matters because economic forecasts now depend on tech adoption. Understanding AI’s uneven effects helps teachers explain future job trends.",
+     "aha": "AI isn’t a universal boost; its benefits depend on how each business integrates it.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/23/nx-s1-6048690/from-wall-street-to-main-street-how-artificial-intelligence-is-affecting-the-economy",
+     "published": "2026-11-23T11:46:29.000Z",
+     "readSec": 26
+    },
+    {
+     "id": "a48327b0b03e",
+     "topic": "Tech",
+     "emoji": "🚀",
+     "headline": "Mars missions lose half their fleet to technical glitches",
+     "body": "NASA paused science on Perseverance rover and Odyssey orbiter. Both vehicles face issues beyond their original design lifetimes. Perseverance’s primary UHF radio stopped, backup radio runs weakly. Odyssey’s fuel is depleting faster than expected. Information comes from NASA statements and mission control reports. Key detail: rover now uses slower X‑band Earth link. These problems highlight challenges of aging space hardware far from Earth.",
+     "aha": "Even legendary Mars explorers can be sidelined by simple radio failures.",
+     "source": "Ars Technica",
+     "url": "https://arstechnica.com/space/2026/11/half-of-nasas-aging-mars-fleet-knocked-offline-by-technical-issues/",
+     "published": "2026-11-24T22:50:11.000Z",
+     "readSec": 25
+    },
+    {
+     "id": "9e20a2be2f9d",
+     "topic": "Science",
+     "emoji": "🧬",
+     "headline": "Yale team spots protein link to calorie‑restriction benefits",
+     "body": "Scientists studied blood from participants reducing calories modestly. They measured thousands of proteins to find changes. Complement component 3 (C3) levels dropped with lower intake. Reduced C3 may give anti‑aging effects without starvation. Findings come from a two‑year clinical trial analysis. Key detail: participants cut calories 11‑14% without deprivation. This matters because targeting C3 could mimic diet benefits safely.",
+     "aha": "Cutting calories modestly lowers a specific immune protein, offering a shortcut to longevity.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261128010416.htm",
+     "published": "2026-11-28T13:44:12.000Z",
+     "readSec": 24
+    },
+    {
+     "id": "b9ea7c9998b3",
+     "topic": "Mind",
+     "emoji": "🧠",
+     "headline": "Multilingual speakers show slower biological aging across Europe",
+     "body": "Researchers examined health data from over 86,000 adults. They compared actual age to biological age estimates. People speaking multiple languages appeared younger than monolinguals. Data covered 27 European countries using machine‑learning models. Key detail: multilingualism linked to better memory and physical health. The pattern held even when only one extra language was known. Implication: everyday language juggling may protect brain and body over time.",
+     "aha": "Speaking another language works like a daily mental gym, slowing both mind and body aging.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/speaking-more-than-one-language-isnt-just-about-keeping-your-mind-sharp-scientists-found-it-tracks-with-staying-physically-healthier-too/",
+     "published": "2026-11-28T17:00:31.000Z",
+     "readSec": 26
+    },
+    {
+     "id": "0a85f31c22b4",
+     "topic": "Business",
+     "emoji": "🥩",
+     "headline": "Centennial butcher shop closes despite recent sales surge",
+     "body": "Bennett Butchers, operating since 1899, announced its shutdown. Owner cited rising labor and energy costs as main reasons. National Insurance hikes and utility bills made profitability unsustainable. Shop recently sold more meat in weeks than two Christmases combined. Information comes from the owner’s statements and local news reports. Key detail: despite strong community support, financial pressures prevailed. Closure shows small retailers struggle even with loyal customers.",
+     "aha": "Even a flood of sales cannot offset soaring operational costs for traditional shops.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/articles/cqe9k3m9mvexo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-28T07:18:47.000Z",
+     "readSec": 26
+    }
+   ],
+   "rabbit": {
+    "id": "a4b81e4d8266",
+    "topic": "Ethics",
+    "emoji": "💭",
+    "title": "Why metabolism matters for models of the mind",
+    "body": "Philosophers note most mind models ignore brain energy use. Metabolism powers neurons, regulates waste, and maintains brain health. Without metabolic constraints, models risk becoming unrealistic theories. Including energy use could ground mind studies in real biology.",
+    "dig": [
+     {
+      "q": "How does brain energy consumption compare to other organs?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20brain%20energy%20consumption%20compare%20to%20other%20organs%3F"
+     },
+     {
+      "q": "What are current models that incorporate metabolism?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20are%20current%20models%20that%20incorporate%20metabolism%3F"
+     },
+     {
+      "q": "Can metabolic limits explain cognitive fatigue?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20metabolic%20limits%20explain%20cognitive%20fatigue%3F"
+     }
+    ],
+    "source": "Aeon",
+    "url": "https://aeon.co/essays/all-our-models-of-how-the-mind-functions-are-missing-something"
+   }
+  },
+  {
    "at": "2026-11-28T16:20:41.426Z",
    "stories": [
     {
@@ -1010,5 +1098,5 @@
    ]
   }
  ],
- "updated": "2026-11-28T16:20:41.426Z"
+ "updated": "2026-11-28T19:30:54.129Z"
 }
