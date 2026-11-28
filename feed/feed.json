@@ -1,6 +1,94 @@
 {
  "runs": [
   {
+   "at": "2026-11-28T16:20:41.426Z",
+   "stories": [
+    {
+     "id": "8a58437467cc",
+     "topic": "Science",
+     "emoji": "🐢",
+     "headline": "Leatherbacks Nesting Far South on Ecuadorian Beaches",
+     "body": "Researchers found many leatherback turtle nests on Ecuador’s coast during 2025‑2026 season. Data show these nests are over 1,000 miles from traditional sites in Mexico and Costa Rica. Scientists think rising ocean temperatures push turtles toward cooler coastal waters. Nesting success, like egg numbers and hatch rates, matches northern sites. Some Ecuador nests even produced more hatchlings than usual. The shift aligns with cooler La Niña periods in the Pacific. This new refuge offers hope for a species facing possible extinction.",
+     "aha": "You’d think hotter seas would drive turtles away, but cooler coastal spots are attracting them.",
+     "source": "ScienceDaily",
+     "url": "https://www.sciencedaily.com/releases/2026/11/261127203623.htm",
+     "published": "2026-11-28T04:03:17.000Z",
+     "readSec": 31
+    },
+    {
+     "id": "874aa57f588b",
+     "topic": "Mind",
+     "emoji": "📱",
+     "headline": "Screen Soothing Creates Loop Between Kids’ Behavior and Devices",
+     "body": "Study links giving tablets to calm toddlers with changes in self‑control development. Researchers tracked children aged 2½ to 7½ using yearly parent surveys. Kids who rely on screens miss chances to practice internal coping skills. The habit forms a feedback loop where screens and executive function influence each other. Executive functions act like brain air‑traffic control, managing impulses and flexibility. Some children show direct developmental effects from heavy screen calming. The findings highlight how everyday parenting choices shape cognitive growth.",
+     "aha": "Screens calm tantrums, yet they may also train the brain to need screens for regulation.",
+     "source": "PsyPost",
+     "url": "https://www.psypost.org/calming-kids-with-screens-creates-a-developmental-feedback-loop-for-most-familie/",
+     "published": "2026-11-28T15:00:27.000Z",
+     "readSec": 31
+    },
+    {
+     "id": "d7d636d6582b",
+     "topic": "Money",
+     "emoji": "🛒",
+     "headline": "Families Trim Grocery Bills to Cover Other Expenses",
+     "body": "Households with tight budgets are spending less on food and dining out. Higher rent and utility costs are eating up larger portions of income. People report cutting back on groceries to pay essential bills. The shift shows how basic living costs force trade‑offs in daily spending.",
+     "aha": "Saving on meals isn’t just frugality; it’s a survival tactic against rising housing costs.",
+     "source": "NPR Economy",
+     "url": "https://www.npr.org/2026/11/24/nx-s1-6047499/many-families-are-cutting-corners-at-the-grocery-store-to-pay-their-other-bills",
+     "published": "2026-11-24T22:45:01.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "3a232bd3797c",
+     "topic": "Business",
+     "emoji": "🏬",
+     "headline": "Poundland Closure Leaves Gap in Former Mining Town",
+     "body": "Shoppers and staff discuss possible shutdown of the local Poundland store. The shop was a key retailer in the Camborne community. Its loss could affect daily shopping options for residents. Residents fear reduced access to affordable goods after closure.",
+     "aha": "A single discount store’s exit can reshape the whole town’s shopping landscape.",
+     "source": "BBC Business",
+     "url": "https://www.bbc.co.uk/news/videos/ckvg20jj2r1po?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-28T12:07:08.000Z",
+     "readSec": 20
+    },
+    {
+     "id": "8bb3e09f3b49",
+     "topic": "Communication & Persuasion",
+     "emoji": "🗣️",
+     "headline": "Elders’ Stories Boost Community Connection and Memory",
+     "body": "A librarian helped seniors share personal histories in a small Vermont town. Local historical society turned these narratives into an exhibit and book series. Scientists found storyteller and listener brains sync during oral tales. Shared stories release bonding hormones, increasing trust and empathy. Emotional narratives strengthen memory and social bonds among listeners. The project shows oral history’s power to unite generations. Community members eagerly await the next collection of elder stories.",
+     "aha": "Listening to elders does more than preserve history; it chemically strengthens community ties.",
+     "source": "Greater Good (Berkeley)",
+     "url": "https://greatergood.berkeley.edu/article/item/what_happens_when_elders_share_their_stories",
+     "published": "2026-11-23T15:39:00.000Z",
+     "readSec": 27
+    }
+   ],
+   "rabbit": {
+    "id": "a4b81e4d8266",
+    "topic": "Mind",
+    "emoji": "💡",
+    "title": "Why Metabolism Matters in Models of the Mind",
+    "body": "Philosophers and scientists build many mind models but often ignore brain energy use. Metabolism includes energy consumption, maintenance, regulation, and waste removal in the brain. The brain, though only 2% of body mass, uses about 20% of energy. Ignoring metabolism risks creating mind theories detached from real biological limits.",
+    "dig": [
+     {
+      "q": "How does brain energy affect thinking speed?",
+      "url": "https://en.wikipedia.org/w/index.php?search=How%20does%20brain%20energy%20affect%20thinking%20speed%3F"
+     },
+     {
+      "q": "What are examples of metabolic constraints on cognition?",
+      "url": "https://en.wikipedia.org/w/index.php?search=What%20are%20examples%20of%20metabolic%20constraints%20on%20cognition%3F"
+     },
+     {
+      "q": "Can metabolic health improve mental performance?",
+      "url": "https://en.wikipedia.org/w/index.php?search=Can%20metabolic%20health%20improve%20mental%20performance%3F"
+     }
+    ],
+    "source": "Aeon",
+    "url": "https://aeon.co/essays/all-our-models-of-how-the-mind-functions-are-missing-something"
+   }
+  },
+  {
    "at": "2026-11-28T06:14:05.455Z",
    "stories": [
     {
@@ -922,5 +1010,5 @@
    ]
   }
  ],
- "updated": "2026-11-28T06:14:05.455Z"
+ "updated": "2026-11-28T16:20:41.426Z"
 }
